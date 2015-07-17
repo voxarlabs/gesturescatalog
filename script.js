@@ -5,7 +5,7 @@ var paginationAllowed = true;
 var tableID = "tableID";
 var nbPagination = 5;
 
-var public_spreadsheet_key = 'https://docs.google.com/spreadsheets/d/1uutNIH-6TQaeiojiwQ5rfQLuSCKLHmO_-PLfpT8H6Mk/pubhtml';
+var public_spreadsheet_key = 'https://docs.google.com/spreadsheets/u/1/d/13qwCqlQBfqEpu3MZuqjIBHxhSMFI5-L5aVop1nxmIgU/pubhtml';
 
 
 function init() {
@@ -70,11 +70,18 @@ function filtersContainer(rows, tabletop) {
 
     // 6 is the first valid filter column
     for(i = 6; i < tableCategories.length; i++) {
+
+
         //console.log('categories: ', categories);
         arrayFilters = listFilters(rows, tableCategories[i]);
         arrayFilters = arrayFilters.sort();
 
-        html += "<td valign=\"top\" width=\"25%\"><div class=\"scrollbar\" id=\"style-3\" style=\"overflow: auto; height: 200px;\"><b>" + capitaliseFirstLetter(tableCategories[i]) + "</b><form>";
+        display = "block;"
+        if(tableCategories[i] == 'youtubeid'){
+            display = "none";
+        }
+
+        html += "<td style=\"display:" + display +  " \" valign=\"top\" width=\"25%\"><div class=\"scrollbar\" id=\"style-3\" style=\"overflow: auto; height: 200px;\"><b>" + capitaliseFirstLetter(tableCategories[i]) + "</b><form>";
 
         for(var j = 0; j < arrayFilters.length; j++) {
             html += "<input id=\"" + tableCategories[i] + arrayFilters[j] + "\" type=\"checkbox\" name=\"domain\" value=\"X\">"+ arrayFilters[j] + "<br>";
@@ -91,6 +98,7 @@ function filtersContainer(rows, tabletop) {
 }
 
 function refreshMovies() {
+
     var arrayFilters;
     var tempRows = rows.slice();
     var indexsLeft = new Array();
@@ -142,7 +150,7 @@ function refreshMovies() {
     var html="<table class=\"table table-hover\" align=\"left\" style=\"margin:20px;\">";
     html += "<tr><th><b> Index</th></b>";
     for(var k = 0; k < categories.length; k++) {
-        if(k != 0 && k != 4 && k != 5) {
+        if(k != 0 && k != 4 && k != 5 && categories[k].toLowerCase() != "youtubeid") {
            html += "<th><b>"+capitaliseFirstLetter(categories[k].toLowerCase())+"</b></th>";
         }
     }
@@ -158,7 +166,7 @@ function refreshMovies() {
             indexsLeft[indexsLeft.length] = j;
             html += "<tr><td>" + (count++) + "</td>";
             for(var k = 0; k < categories.length; k++) {
-                if(k != 0 && k != 4 && k != 5) {
+                if(k != 0 && k != 4 && k != 5 && categories[k].toLowerCase() != "youtubeid") {
                    html += "<td><div class=\"scrollbar\" id=\"style-3\" style=\"overflow: auto; height: 100px; width: auto;\">"+tempRows[j][categories[k]]+"</div></td>";
                 }
 
@@ -180,7 +188,7 @@ function refreshMovies() {
 
     var currData = []
     for(x in tempRows){
-        currData.push(x);
+        currData.push(tempRows[x]);
     }
 
     loadVideos(currData);
@@ -188,13 +196,16 @@ function refreshMovies() {
     numberOfPages = indexsLeft.length / videosPerPage + 1;
     paginationAllowed = true;
     pagination(numberOfPages);
+
+    $('#scenesContainer table').css("display", "none");
+    $('#scenesContainer table:first-child').css("display", "block");
 }
 
-function loadVideos(data){
+function loadVideos(currData){
 
-    var rows = data;
+    var rows = currData;
     var scenesHTML = document.getElementById('scenesContainer').innerHTML;
-    
+
     for(var j = 0; j < rows.length/6; ++j) 
     {
 
@@ -212,16 +223,12 @@ function loadVideos(data){
                 
                 var indexH = j*6 + i + 1;
 
-                
-                /*
-                scenesHTML += 
-                "<td><div class=\"youtube\" id=" + youtubeID + " style=\"width: 360px; height: 200px; float: left; border: 2px solid #000000; text-align: center;\"></div></td>";   */
-               
-                
-
              var youtubeID = rows[j*6 + i]['youtubeid'];
-             scenesHTML += '<td><div class="lazyYT" data-youtube-id="' + youtubeID +'" data-ratio="16:9">Video</div></td>';
-        
+
+             scenesHTML += '<td> <div class="yt-video" id="div-' + youtubeID +'">' +
+                '<img src="http://i.ytimg.com/vi/'+youtubeID+'/hqdefault.jpg" class="thumb">' +
+                '<a href="#" data-yid="' + youtubeID + '"></a>' +
+              '</div> </td>'
                 
             }
 
@@ -235,8 +242,15 @@ function loadVideos(data){
     }
 
     document.getElementById('scenesContainer').innerHTML = scenesHTML;
-    $('.lazyYT').lazyYT();
+
+    $('.yt-video a').click(function(){
+                id = $(this).data('yid');
+                $("#div-"+id).html('<iframe id="ytplayer" type="text/html" width="360" height="200" src="http://www.youtube.com/embed/'+id+'?autoplay=1" frameborder="0"/>');
+                return false;
+            })
+    
 }
+
 
 function showInfo(data, tabletop) {
     rows = data;
