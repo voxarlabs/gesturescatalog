@@ -191,6 +191,7 @@ function refreshMovies() {
         currData.push(tempRows[x]);
     }
 
+
     loadVideos(currData);
 
     numberOfPages = indexsLeft.length / videosPerPage + 1;
@@ -204,9 +205,13 @@ function refreshMovies() {
 function loadVideos(currData){
 
     var rows = currData;
-    var scenesHTML = document.getElementById('scenesContainer').innerHTML;
+    var scenesHTML = "";
 
-    for(var j = 0; j < rows.length/6; ++j) 
+    var lastPage = rows.length/6;
+
+    console.log(currData);
+
+    for(var j = 0; j <= lastPage; ++j) 
     {
 
         scenesHTML += "<table style=\"width:100%\">";
@@ -223,12 +228,12 @@ function loadVideos(currData){
                 
                 var indexH = j*6 + i + 1;
 
-             var youtubeID = rows[j*6 + i]['youtubeid'];
+                 var youtubeID = rows[j*6 + i]['youtubeid'];
 
-             scenesHTML += '<td> <div class="yt-video" id="div-' + youtubeID +'">' +
-                '<img src="http://i.ytimg.com/vi/'+youtubeID+'/hqdefault.jpg" class="thumb">' +
-                '<a href="#" data-yid="' + youtubeID + '"></a>' +
-              '</div> </td>'
+                 scenesHTML += '<td> <div class="yt-video" id="div-' + youtubeID +'">' +
+                    '<img src="http://i.ytimg.com/vi/'+youtubeID+'/hqdefault.jpg" class="thumb">' +
+                    '<a href="#" data-yid="' + youtubeID + '"></a>' +
+                  '</div> </td>'
                 
             }
 
@@ -242,6 +247,8 @@ function loadVideos(currData){
     }
 
     document.getElementById('scenesContainer').innerHTML = scenesHTML;
+
+    console.log(scenesHTML);
 
     $('.yt-video a').click(function(){
                 id = $(this).data('yid');
