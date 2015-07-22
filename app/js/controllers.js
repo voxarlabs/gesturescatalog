@@ -1,5 +1,3 @@
-var gesturesApp = angular.module('gesturesApp', ['gesturesServices', 'angular.filter', 'ui.select', 'checklist-model', 'angular.vertilize']);
-
 gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', 
 	function(gestures, $scope, $filter){
 

@@ -22,9 +22,11 @@
   <script type="text/javascript" src="bower_components/ui-select/dist/select.js"></script>
   <script type="text/javascript" src="bower_components/checklist-model/checklist-model.js"></script>
   <script type="text/javascript" src="bower_components/angular-vertilize/angular-vertilize.min.js"></script>
+  <script type="text/javascript" src="bower_components/angular-route/angular-route.min.js"></script>
 
   <!-- Javascript (application) -->
   <script type="text/javascript" src="js/utils.js"></script>
+  <script type="text/javascript" src="js/app.js"></script>
   <script type="text/javascript" src="js/services.js"></script>
   <script type="text/javascript" src="js/controllers.js"></script>
   <script type="text/javascript" src="js/filters.js"></script>
@@ -158,17 +160,7 @@
 
         <div id="results-container">
 
-          <div class="result-single" 
-            ng-repeat="gesture in filteredGestures">
-              <img src="http://popseries.com.br/wp-content/uploads/2014/09/Minority-Report.jpg" style="width: 100%" />
-
-              <div class="result-single-data">
-                <h1>{{ gesture.movie }}</h1>
-                <h1>{{ gesture.year }}</h1>
-              </div>
-          </div>
-
-          <div class="clearfix"></div>
+          <div ng-view></div>
 
         </div>
 
