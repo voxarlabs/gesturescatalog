@@ -20,7 +20,8 @@
   <script type="text/javascript" src="bower_components/tabletop/src/tabletop.js"></script>
   <script type="text/javascript" src="bower_components/angular-filter/dist/angular-filter.min.js"></script>
   <script type="text/javascript" src="bower_components/ui-select/dist/select.js"></script>
-  
+  <script type="text/javascript" src="bower_components/checklist-model/checklist-model.js"></script>
+  <script type="text/javascript" src="bower_components/angular-vertilize/angular-vertilize.min.js"></script>
 
   <!-- Javascript (application) -->
   <script type="text/javascript" src="js/utils.js"></script>
@@ -83,11 +84,11 @@
       </div>
     </div> <!-- End Content -->
 
-    <div id="content" class="row">
+    <div vertilize-container id="content" class="row">
 
-      <div id="sidebar" class="col-md-3">
+      <div vertilize id="sidebar" class="col-md-3">
 
-        <div class="filter" ng-repeat="f in filters">
+        <div class="filter visible" ng-repeat="f in filters">
 
           <div class="filter-header">
               <h2>
@@ -98,17 +99,25 @@
           </div>
           
           <div class="filter-content">
-            <input ng-if="f.input == 'text-field'" ng-change="doFilter()" type="text" name="movie" ng-model="criteria[f.field]" placeholder="{{f.placeholder}}" />
+            <input ng-if="f.input == 'text-field'" ng-change="doFilter()" type="text" ng-model="criteria[f.field]" placeholder="{{f.placeholder}}" />
 
             <ui-select multiple ng-if="f.input == 'select'" ng-change="doFilter()"
                 ng-model="criteria[f.field]" 
                 title="Choose tasks" 
                 append-to-body="true">
               <ui-select-match placeholder="{{f.placeholder}}">{{$item}}</ui-select-match>
-              <ui-select-choices repeat="task in f.options | filter:$select.search">
-                {{ task }}
+              <ui-select-choices repeat="opt in f.options | filter:$select.search">
+                {{ opt }}
               </ui-select-choices>
             </ui-select>
+
+
+            <ul class="checkbox-list" ng-if="f.input == 'checkbox'">
+              <li ng-repeat="opt in f.options">
+                <input checklist-change="doFilter()" type="checkbox" checklist-model="criteria[f.field]" checklist-value="opt"  id="{{ f.field }}-{{ opt }}" />
+                <label for="{{ f.field }}-{{ opt }}" class="checkbox-label"> {{ opt }} </label>
+              </li>
+            </ul>
 
           </div>
 
@@ -116,7 +125,7 @@
 
       </div> <!-- End Filter -->
 
-      <div id="results" class="col-md-9">
+      <div vertilize id="results" class="col-md-9">
 
         <div id="results-utils">
 

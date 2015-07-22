@@ -13,7 +13,8 @@
     "tabletop": "~1.4.2",
     "angular-paging": "~1.0.3",
     "angular-filter": "~0.5.4",
-    "ui-select": "*"
+    "ui-select": "*",
+    "checklist-model": "~0.2.4"
   },
   "resolutions": {
     "angular": "1.4.3"

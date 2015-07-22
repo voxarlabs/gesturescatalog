@@ -183,6 +183,56 @@ header nav #voxar a:hover{
    color: #a3a3a3;
 }
 
+/* Filter checkboxes */
+.checkbox-list{
+	list-style-type: none;
+	padding: 0px;
+}
+
+.checkbox-list li{
+	margin-bottom: 10px;
+}
+
+.filter input[type=checkbox]{
+	position:absolute;
+	z-index:-1000;
+	left:-1000px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	height:1px;
+	width:1px;
+	margin:-1px;
+	padding:0;
+	border:0;
+}
+
+.filter input[type=checkbox] + label.checkbox-label {
+	padding-left:29px;
+	height:20px; 
+	display:inline-block;
+	line-height:20px;
+	background-repeat:no-repeat;
+	background-position: 0 0;
+	font: 300 14px "Open Sans";
+	color: #fff;
+	vertical-align:middle;
+	cursor:pointer;
+
+}
+
+.filter input[type=checkbox]:checked + label.checkbox-label{
+	background-position: 0 -20px;
+}
+.filter label.checkbox-label {
+	background-image:url("../img/checkbox.png");
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 
 /* Resuls */
 #results{

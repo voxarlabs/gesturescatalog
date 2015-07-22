@@ -37,7 +37,7 @@ function parseFilter(name, str, data){
 		if(s.indexOf("Filterable") > -1){
 			filter['filterable'] = true;
 			filter['input'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")"));
-			if(filter['input'] == 'select'){
+			if(filter['input'] == 'select' || filter['input'] == 'checkbox'){
 				filter['options'] = getUniqueOptions(data, name);
 			}
 		}
