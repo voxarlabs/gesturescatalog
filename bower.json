@@ -1,0 +1,21 @@
+{
+  "name": "gestures-catalog",
+  "description": "Web Application for the work in progress \"An Open Catalog of Hand Gestures from Sci-Fi Movies\".",
+  "version": "0.0.1",
+  "homepage": "https://github.com/voxarlabs/",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "~1.4.2",
+    "bootstrap": "~3.3.5",
+    "angular-route": "~1.4.2",
+    "angular-resource": "~1.4.2",
+    "tabletop": "~1.4.2",
+    "angular-paging": "~1.0.3",
+    "angular-filter": "~0.5.4",
+    "ui-select": "*"
+  },
+  "resolutions": {
+    "angular": "1.4.3"
+  }
+}

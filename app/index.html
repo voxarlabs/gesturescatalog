@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en" ng-app="gesturesApp">
+<head>
+  <meta charset="utf-8">
+  <title>Gestures Catalog</title>
+
+  <!-- CSS -->
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="bower_components/ui-select/dist/select.css">
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
+  <link rel="stylesheet" href="css/default.css">
+
+  <!-- Javascript (dependencies) -->
+  <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+  <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+  <script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
+  <script type="text/javascript" src="bower_components/angular-resource/angular-resource.js"></script>
+  <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="bower_components/tabletop/src/tabletop.js"></script>
+  <script type="text/javascript" src="bower_components/angular-filter/dist/angular-filter.min.js"></script>
+  <script type="text/javascript" src="bower_components/ui-select/dist/select.js"></script>
+  
+
+  <!-- Javascript (application) -->
+  <script type="text/javascript" src="js/utils.js"></script>
+  <script type="text/javascript" src="js/services.js"></script>
+  <script type="text/javascript" src="js/controllers.js"></script>
+  <script type="text/javascript" src="js/filters.js"></script>
+  <script type="text/javascript" src="js/directives.js"></script>
+  
+
+
+  <script type="text/javascript">
+  $(document).ready(function(){
+
+    $('.filter-header a').click(function(e){
+      $(this).closest('.filter').toggleClass('visible');
+      e.preventDefault();
+    })
+
+  })
+  </script>
+
+</head>
+<body ng-controller="GesturesListCtrl">
+
+  <div class="container-fluid">
+
+    <header class="row">
+      <div class="col-md-4">
+        <a href="#" id="logo">
+          <img src="img/logo.png" />
+        </a>
+      </div>
+
+      <div class="col-md-offset-3 col-md-5">
+        <nav>
+          <li>
+            <a href="#">HOME</a>
+          </li>
+          <li>
+            <a href="#">ABOUT</a>
+          </li>
+          <li id="voxar">
+            <a href="#"> <img src="img/voxar.png" /> </a>
+          </li>
+        </nav>
+      </div>
+    </header>
+
+    <div id="pre-content" class="row">
+      <div id="filters" class="col-md-3">
+        <h1>FILTERS</h1>
+        <a href="#">
+          <img src="img/clear_icon.png" />
+          <span>CLEAR</span>
+        </a>
+      </div>
+
+      <div id="result-data" class="col-md-9">
+        <h1><strong>{{ filteredGestures.length }}</strong> gestures found</h1>
+      </div>
+    </div> <!-- End Content -->
+
+    <div id="content" class="row">
+
+      <div id="sidebar" class="col-md-3">
+
+        <div class="filter" ng-repeat="f in filters">
+
+          <div class="filter-header">
+              <h2>
+                <a href="#" filter-drawer>
+                  <span>{{ f.name }}</span>
+                </a>
+              </h2>
+          </div>
+          
+          <div class="filter-content">
+            <input ng-if="f.input == 'text-field'" ng-change="doFilter()" type="text" name="movie" ng-model="criteria[f.field]" placeholder="{{f.placeholder}}" />
+
+            <ui-select multiple ng-if="f.input == 'select'" ng-change="doFilter()"
+                ng-model="criteria[f.field]" 
+                title="Choose tasks" 
+                append-to-body="true">
+              <ui-select-match placeholder="{{f.placeholder}}">{{$item}}</ui-select-match>
+              <ui-select-choices repeat="task in f.options | filter:$select.search">
+                {{ task }}
+              </ui-select-choices>
+            </ui-select>
+
+          </div>
+
+        </div> <!-- End Filter -->
+
+      </div> <!-- End Filter -->
+
+      <div id="results" class="col-md-9">
+
+        <div id="results-utils">
+
+          <div class="dropdown">
+            Sorted by
+            
+            <a href="#" data-toggle="dropdown">
+              <strong>Title</strong>
+              <span class="caret"></span>
+            </a>
+
+            <ul class="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+            </ul>
+          </div>
+
+          <div id="results-display">
+            Displaying as
+            <a href="#"><span class="glyphicon glyphicon-th"></span></a>
+            <a href="#" class="disabled"><span class="glyphicon glyphicon-list"></span></a>
+          </div>
+
+          <div class="clearfix"></div>
+
+        </div> <!-- End Results utils -->
+
+        <div id="results-container">
+
+          <div class="result-single" 
+            ng-repeat="gesture in filteredGestures">
+              <img src="http://popseries.com.br/wp-content/uploads/2014/09/Minority-Report.jpg" style="width: 100%" />
+
+              <div class="result-single-data">
+                <h1>{{ gesture.movie }}</h1>
+                <h1>{{ gesture.year }}</h1>
+              </div>
+          </div>
+
+          <div class="clearfix"></div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,286 @@
+/* Misc */
+@keyframes show {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+/* Header */
+header{
+	background: #fdfdfd;
+}
+
+header #logo{
+	display: block;
+	margin: 20px 0px 30px 0px;
+}
+
+header nav{
+	list-style-type: none;
+	font: normal 20px "Open Sans";
+	float: right;
+	margin-top: 34px;
+}
+
+header nav li{
+	display: inline-block;
+}
+
+header nav a{
+	color: #495355;
+	padding: 10px 15px;
+	margin: 10px;
+	display: inline-block;
+	transition: all .5s linear;
+}
+
+header nav a:hover{
+	text-decoration: none;
+	background: #f6f6f6;
+}
+
+header #voxar a{
+	margin: 0px;
+	opacity: 0.5;
+	padding: 0px;
+}
+
+header #voxar a img{
+	position: relative;
+	top: -2px;
+}
+
+header nav #voxar a:hover{
+	opacity: 1;
+	background: none;
+}
+
+/* Pre-content */
+#filters{
+	background: #6b7476;
+	height: 64px;
+}
+
+#filters h1{
+	font: 600 16px "Open Sans";
+	color: #eeeeee;
+	float: left;
+	margin-top: 21px;
+}
+
+#filters a{
+	display: block;
+	float: right;
+	background: #495355;
+	border-radius: 2px;
+	padding: 3px 7px 4px 7px;
+	color: #fff;
+	font: 300 12px "Open Sans";
+	margin:20px 0px 0px 0px;
+	text-decoration: none;
+}
+
+#filters a img{
+	margin: 0px 3px 0px 1px;
+}
+
+#filters a span{
+	position: relative;
+	top: 1px;
+}
+
+#result-data{
+	height: 64px;
+	background: #e9e9e9;
+	border-top: solid 1px #e0e0e0;
+}
+
+#result-data h1{
+	font: 300 24px "Open Sans";
+	color: #4f4f4f;
+	margin: 15px 0px 0px 7px;
+}
+
+/* Content */
+#sidebar{
+	background: #566062;
+	padding: 0px;
+}
+
+.filter-header{
+	height: 58px;
+}
+
+.filter.visible .filter-header{
+	background: #6ad1df;
+	text-shadow: 1px 1px rgba(0,0,0,0.2);
+}
+
+.filter-header h2{
+	font: 600 14px "Open Sans";
+	float: left;
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+.filter-header h2 a{
+	display: block;	
+	width: 100%;
+	height: 58px;
+	color: #eeeeee;
+}
+
+.filter-header h2 a span{
+	background: url("../img/filter_hidden_arrow.png") no-repeat 4px 4px;
+	display: inline-block;
+	margin: 20px;
+	padding-left: 22px;
+}
+
+.filter.visible .filter-header h2 a span{
+	font-weight: 700;
+	background: url("../img/filter_visible_arrow.png") no-repeat 0px 4px;
+}
+
+.filter .filter-content{
+	display: none;
+	animation: show 300ms ease-in-out both;
+	padding: 30px;
+}
+
+.filter.visible .filter-content{
+	display: block;
+	border-left: solid 6px #6ad1df;
+	border-bottom: solid 3px #465052;
+	background: #495355;
+}
+
+.filter input[type="text"], .ui-select-multiple.ui-select-bootstrap input.ui-select-search{
+  display: block;
+  margin: 0;
+  width: 100%;
+  font-family: sans-serif;
+  font-size: 18px;
+  appearance: none;
+  box-shadow: none;
+  border-radius: 2px;
+  padding: 10px;
+  border: none;
+  border-bottom: solid 2px #e9e9e9;
+  transition: border 0.3s;
+  background: #747c7e !important;
+  color: #ebebeb;
+  height: auto;
+}
+
+.filter input[type="text"]:focus, .ui-select-search:focus {
+  outline: none;
+  border-bottom: solid 2px #6ad1df;
+  color: #6ad1df;
+}
+
+.filter ::-webkit-input-placeholder, .filter :-moz-placeholder,.filter ::-moz-placeholder,.filter :-ms-input-placeholder  {
+   color: #a3a3a3;
+}
+
+
+/* Resuls */
+#results{
+	background: #f3f3f3;
+	box-shadow: -3px 0px 5px rgba(0,0,0,0.3);
+}
+
+#results-utils{
+	margin: 30px;
+	border-bottom: solid 1px #E8E8E8;
+	padding-bottom: 10px;
+	clear: both;
+}
+
+#results-utils a{
+	color: #4f4f4f;
+	text-decoration: none;
+}
+
+#results-utils .dropdown{
+	float: left;
+}
+
+#results-utils .dropdown-menu{
+	margin-top: 10px;
+	border-radius: 0px 0px 4px 4px;
+}
+
+#results-display{
+	float: right;
+	position: relative;
+	top: -8px;
+}
+
+#results-display a{
+	font-size: 20px;
+	margin-left: 5px;
+	position: relative;
+	top: 3px;
+}
+
+#results-display .disabled{
+	color: #DDD;
+}
+
+#results-container{
+	margin: 0px 15px;
+}
+
+.result-single{
+	margin: 20px;
+	width: 230px;
+	float: left;
+	background: #fff;
+	border-radius: 4px;
+	box-shadow: 0px 0px 2px rgba(0,0,0,0.4);
+	color: #566062;
+}
+
+.result-single h1{
+	font: 600 14px "Open Sans";
+}
+
+/* Select2 Custom Theme */
+
+.ui-select-container{
+	background: none;
+	border: none;
+	box-shadow: none;
+}
+
+.ui-select-match-item{
+	display: block;
+	background: none;
+	color: #eeeeee;
+	text-align: left;
+	border: none;
+	font: 300 14px "Open Sans";
+	box-shadow: none;
+	border-bottom: solid 1px #606769;
+	padding: 10px 5px;
+	white-space: normal;
+	border-radius: 0px;
+}
+
+.ui-select-match-item:hover{
+	background: #626464;
+	color: #fff;
+}
+
+.ui-select-match-close{
+	float: none;
+	color: #eeeeee;
+	position: relative;
+	top: 2px;
+	margin-right: 5px;
+}
+
+.ui-select-bootstrap .ui-select-choices-row > a{
+	white-space: normal !important	;
+}
