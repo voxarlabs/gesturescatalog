@@ -1,5 +1,5 @@
-gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', 
-	function(gestures, $scope, $filter){
+gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$modal', 'dwLoading',
+	function(gestures, $scope, $filter, $modal, $loading){
 
 		$scope.gestures = [];
 
@@ -16,6 +16,8 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter',
 		$scope.filtersList = [];
 
 		$scope.displayMode = 'list';
+
+		$loading.start('data');
 
 		gestures.all(function(data, tabletop){
 			$scope.$apply(function(){
@@ -38,6 +40,8 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter',
 					var filter = $scope.filters[i];
 					$scope.visibility[filter.field] = filter.visibility;
 				}
+
+				$loading.finish('data');
 
 			});
 		})
@@ -63,6 +67,5 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter',
 			$scope.doFilter();
 		}
 
-	}
-]);
 
+}]);

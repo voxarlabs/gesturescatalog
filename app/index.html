@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="bower_components/ui-select/dist/select.css">
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
   <link rel="stylesheet" href="bower_components/angular-toggle-switch/angular-toggle-switch.css">
+  <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.min.css">
+  <link rel="stylesheet" href="bower_components/angular-loading/angular-loading.css">
   <link rel="stylesheet" href="css/default.css">
 
   <!-- Javascript (dependencies) -->
@@ -26,6 +28,12 @@
   <script type="text/javascript" src="bower_components/angular-route/angular-route.min.js"></script>
   <script type="text/javascript" src="bower_components/angular-toggle-switch/angular-toggle-switch.min.js"></script>
   <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+  <script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+  <script type="text/javascript" src="bower_components/angular-resource/angular-resource.min.js"></script>
+  <script type="text/javascript" src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
+  <script type="text/javascript" src="bower_components/spin.js/spin.js"></script>
+  <script type="text/javascript" src="bower_components/angular-loading/angular-loading.min.js"></script>
 
   <!-- Javascript (application) -->
   <script type="text/javascript" src="js/utils.js"></script>
@@ -63,119 +71,153 @@
       <div class="col-md-offset-3 col-md-5">
         <nav>
           <li>
-            <a href="#">HOME</a>
+            <a ui-sref="cards">HOME</a>
           </li>
           <li>
-            <a href="#">ABOUT</a>
+            <a href="#" data-toggle="modal" data-target="#about-modal">ABOUT</a>
           </li>
           <li id="voxar">
-            <a href="#"> <img src="img/voxar.png" /> </a>
+            <a href="http://cin.ufpe.br/~voxarlabs"> <img src="img/voxar.png" /> </a>
           </li>
         </nav>
       </div>
     </header>
 
-    <div id="pre-content" class="row">
-      <div id="filters" class="col-md-3">
-        <h1>FILTERS</h1>
-        <a href="" ng-click="clearFilter()">
-          <img src="img/clear_icon.png" />
-          <span>CLEAR</span>
-        </a>
-      </div>
+    <div id="loading-wrapper">
 
-      <div id="result-data" class="col-md-9">
-        <h1><strong>{{ filteredGestures.length }}</strong> gestures found</h1>
-      </div>
-    </div> <!-- End Content -->
+      <div dw-loading="data" 
+        dw-loading-options="{
+          active:true, 
+          overlay: true,
+          text: 'Loading data... Please wait.',
+          spinnerOptions: {
+            lines: 9 
+            , length: 13 
+            , width: 6 
+            , radius: 9
+            , corners: 1
+            , color: '#000'
+            , opacity: 0.25
+            , rotate: 0
+            , direction: 1
+            , speed: 1
+            , trail: 60
+            , fps: 20
+          }
+        }"></div>
 
-    <div id="content" class="row">
-
-      <div id="sidebar" class="col-md-3">
-
-        <div class="filter visible" ng-repeat="f in filtersList | filter: {filterable:true}">
-
-          <div class="filter-header">
-              <h2>
-                <a href="#" filter-drawer>
-                  <span class="filter-name">{{ f.name }}</span>
-                </a>
-                <toggle-switch 
-                  ng-model="visibility[f.field]"
-                  knob-label="VISIBLE"
-                  on-label="VISIBLE"
-                  off-label="HIDDEN"><toggle-switch>
-              </h2>
-          </div>
-          
-          <div class="filter-content">
-            <input ng-if="f.input == 'text-field'" ng-change="doFilter()" type="text" ng-model="criteria[f.field]" placeholder="{{f.placeholder}}" />
-
-            <ui-select multiple ng-if="f.input == 'select'" ng-change="doFilter()"
-                ng-model="criteria[f.field]" 
-                title="Choose tasks" 
-                append-to-body="true">
-              <ui-select-match placeholder="{{f.placeholder}}">{{$item}}</ui-select-match>
-              <ui-select-choices repeat="opt in f.options | filter:$select.search">
-                {{ opt }}
-              </ui-select-choices>
-            </ui-select>
-
-
-            <ul class="checkbox-list" ng-if="f.input == 'checkbox'">
-              <li ng-repeat="opt in f.options">
-                <input checklist-change="doFilter()" type="checkbox" checklist-model="criteria[f.field]" checklist-value="opt"  id="{{ f.field }}-{{ opt }}" />
-                <label for="{{ f.field }}-{{ opt }}" class="checkbox-label"> {{ opt }} </label>
-              </li>
-            </ul>
-
-          </div>
-
-        </div> <!-- End Filter -->
-
-      </div> <!-- End Filter -->
-
-      <div id="results" class="col-md-9">
-
-        <div id="results-utils">
-
-          <div class="dropdown">
-            Sorted by
-            
-            <a href="#" data-toggle="dropdown">
-              <strong>Title</strong>
-              <span class="caret"></span>
-            </a>
-
-            <ul class="dropdown-menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#">Separated link</a></li>
-            </ul>
-          </div>
-
-          <div id="results-display">
-            Displaying as
-            <a ui-sref="cards" ui-sref-active="active"><span class="glyphicon glyphicon-th"></span></a>
-            <a ui-sref="table" ui-sref-active="active"><span class="glyphicon glyphicon-list"></span></a>
-          </div>
-
-          <div class="clearfix"></div>
-
-        </div> <!-- End Results utils -->
-
-        <div id="results-container">
-
-          <div ui-view></div>
-
+      <div id="pre-content" class="row">
+        <div id="filters" class="col-md-3">
+          <h1>FILTERS</h1>
+          <a href="" ng-click="clearFilter()" tooltip="Reset all the filters">
+            <img src="img/clear_icon.png" />
+            <span>CLEAR</span>
+          </a>
         </div>
 
+        <div id="result-data" class="col-md-9">
+          <h1><strong>{{ filteredGestures.length }}</strong> gestures found</h1>
+        </div>
+      </div> <!-- End Content -->
+
+      <div id="content" class="row">
+
+        <div id="sidebar" class="col-md-3">
+
+          <div class="filter visible" ng-repeat="f in filtersList | filter: {filterable:true}">
+
+            <div class="filter-header">
+                <h2>
+                  <a href="#" filter-drawer>
+                    <span class="filter-name">{{ f.name }}</span>
+                  </a>
+                  <toggle-switch tooltip="Click to toggle the visibility of this property on cards/table"
+                    ng-model="visibility[f.field]"
+                    knob-label="VISIBLE"
+                    on-label="VISIBLE"
+                    off-label="HIDDEN"><toggle-switch>
+                </h2>
+            </div>
+            
+            <div class="filter-content">
+              <input ng-if="f.input == 'text-field'" ng-change="doFilter()" type="text" ng-model="criteria[f.field]" placeholder="{{f.placeholder}}" />
+
+              <ui-select multiple ng-if="f.input == 'select'" ng-change="doFilter()"
+                  ng-model="criteria[f.field]" 
+                  title="Choose tasks" 
+                  append-to-body="true">
+                <ui-select-match placeholder="{{f.placeholder}}">{{$item}}</ui-select-match>
+                <ui-select-choices repeat="opt in f.options | filter:$select.search">
+                  {{ opt }}
+                </ui-select-choices>
+              </ui-select>
+
+
+              <ul class="checkbox-list" ng-if="f.input == 'checkbox'">
+                <li ng-repeat="opt in f.options">
+                  <input checklist-change="doFilter()" type="checkbox" checklist-model="criteria[f.field]" checklist-value="opt"  id="{{ f.field }}-{{ opt }}" />
+                  <label for="{{ f.field }}-{{ opt }}" class="checkbox-label"> {{ opt }} </label>
+                </li>
+              </ul>
+
+            </div>
+
+          </div> <!-- End Filter -->
+
+        </div> <!-- End Sidebar -->
+
+        <div id="results" class="col-md-9">
+
+          <div id="results-utils">
+
+            <div class="dropdown">
+              Sorted by
+              
+              <a href="#" data-toggle="dropdown">
+                <strong>Title</strong>
+                <span class="caret"></span>
+              </a>
+
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+              </ul>
+            </div>
+
+            <div id="results-display">
+              Displaying as
+              <a tooltip="Cards" ui-sref="cards" ui-sref-active="active"><span class="glyphicon glyphicon-th"></span></a>
+              <a tooltip="Table" ui-sref="table" ui-sref-active="active"><span class="glyphicon glyphicon-list"></span></a>
+            </div>
+
+            <div class="clearfix"></div>
+
+          </div> <!-- End Results utils -->
+
+          <div id="results-container">
+
+            <div ui-view></div>
+
+          </div>
+
+        </div>
       </div>
+
     </div>
 
   </div>
+
+
+  <div class="modal fade" id="about-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" ng-include="'partials/about.html'">
+      
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

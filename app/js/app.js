@@ -6,20 +6,12 @@ var gesturesApp = angular.module('gesturesApp', [
 	'checklist-model', 
 	'angular.vertilize',
 	'toggle-switch',
-	'ui.router'
+	'ui.router',
+	'ui.bootstrap',
+	'ngResource',
+	'angular-loading-bar',
+	'darthwade.dwLoading'
 ]);
-
-// gesturesApp.config(['$routeProvider',
-//   function($routeProvider) {
-//     $routeProvider.
-//       when('/', {
-//         templateUrl: 'partials/cards.html'
-//       }).
-//       when('/table', {
-//         templateUrl: 'partials/table.html'
-//       })
-//   }]);
-
 
 gesturesApp.config(function($stateProvider, $urlRouterProvider) {
 
