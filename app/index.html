@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="bower_components/ui-select/dist/select.css">
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
+  <link rel="stylesheet" href="bower_components/angular-toggle-switch/angular-toggle-switch.css">
   <link rel="stylesheet" href="css/default.css">
 
   <!-- Javascript (dependencies) -->
@@ -23,6 +24,8 @@
   <script type="text/javascript" src="bower_components/checklist-model/checklist-model.js"></script>
   <script type="text/javascript" src="bower_components/angular-vertilize/angular-vertilize.min.js"></script>
   <script type="text/javascript" src="bower_components/angular-route/angular-route.min.js"></script>
+  <script type="text/javascript" src="bower_components/angular-toggle-switch/angular-toggle-switch.min.js"></script>
+  <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 
   <!-- Javascript (application) -->
   <script type="text/javascript" src="js/utils.js"></script>
@@ -75,7 +78,7 @@
     <div id="pre-content" class="row">
       <div id="filters" class="col-md-3">
         <h1>FILTERS</h1>
-        <a href="#">
+        <a href="" ng-click="clearFilter()">
           <img src="img/clear_icon.png" />
           <span>CLEAR</span>
         </a>
@@ -86,17 +89,22 @@
       </div>
     </div> <!-- End Content -->
 
-    <div vertilize-container id="content" class="row">
+    <div id="content" class="row">
 
-      <div vertilize id="sidebar" class="col-md-3">
+      <div id="sidebar" class="col-md-3">
 
-        <div class="filter visible" ng-repeat="f in filters">
+        <div class="filter visible" ng-repeat="f in filtersList | filter: {filterable:true}">
 
           <div class="filter-header">
               <h2>
                 <a href="#" filter-drawer>
-                  <span>{{ f.name }}</span>
+                  <span class="filter-name">{{ f.name }}</span>
                 </a>
+                <toggle-switch 
+                  ng-model="visibility[f.field]"
+                  knob-label="VISIBLE"
+                  on-label="VISIBLE"
+                  off-label="HIDDEN"><toggle-switch>
               </h2>
           </div>
           
@@ -127,7 +135,7 @@
 
       </div> <!-- End Filter -->
 
-      <div vertilize id="results" class="col-md-9">
+      <div id="results" class="col-md-9">
 
         <div id="results-utils">
 
@@ -150,8 +158,8 @@
 
           <div id="results-display">
             Displaying as
-            <a href="#"><span class="glyphicon glyphicon-th"></span></a>
-            <a href="#" class="disabled"><span class="glyphicon glyphicon-list"></span></a>
+            <a ui-sref="cards" ui-sref-active="active"><span class="glyphicon glyphicon-th"></span></a>
+            <a ui-sref="table" ui-sref-active="active"><span class="glyphicon glyphicon-list"></span></a>
           </div>
 
           <div class="clearfix"></div>
@@ -160,7 +168,7 @@
 
         <div id="results-container">
 
-          <div ng-view></div>
+          <div ui-view></div>
 
         </div>
 

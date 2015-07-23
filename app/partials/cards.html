@@ -3,8 +3,16 @@
   <img src="http://popseries.com.br/wp-content/uploads/2014/09/Minority-Report.jpg" style="width: 100%" />
 
   <div class="result-single-data">
+
     <h1>{{ gesture.movie }}</h1>
     <h1>{{ gesture.year }}</h1>
+
+    <div ng-repeat="(field, value) in gesture">
+
+    	<p ng-if="visibility[field]"> {{ value }} </p>
+
+    </div>
+
   </div>
 </div>
 

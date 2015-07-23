@@ -1,7 +1,7 @@
 function getUniqueOptions(data, column){
 	var seen = {};
 	var options = []
-	for(x in data){
+	for(var x in data){
 		if(!seen.hasOwnProperty(data[x][column])){
 			options.push(data[x][column]);
 			seen[data[x][column]] = true;
@@ -10,23 +10,38 @@ function getUniqueOptions(data, column){
 	return options;
 }
 
-function parseFilters(data){
-	var filterRow = data[0];
-	data = data.slice(1);
+function toList(dict){
+	var list  = [];
+	for (var i in dict){
+		list.push(dict[i]);
+	}
+	return list;
+}
+
+function parseFilters(filterRow, data){
 	var filters = {};
-	for(col in filterRow){
-		if(filterRow[col] && filterRow[col].length > 0)
+	for(var col in filterRow){
+		if(filterRow[col] && filterRow[col].length > 0){
 			var filter = parseFilter(col, filterRow[col], data);
-			if(filter.filterable) filters[col] = filter;
+			filters[col] = filter;
+		}
 	}
 	return filters;
 }
 
 function parseFilter(name, str, data){
 	var split = str.split(';');
-	var filter = {field:name, name: name, placeholder:name, type: 'text', filterable: false, input: 'text-field'};
+	var filter = {
+		field:name, 
+		name: name, 
+		placeholder:name, 
+		type: 'text', 
+		filterable: false, 
+		input: 'text-field',
+		visibility: true
+	};
 
-	for(i in split){
+	for(var i in split){
 		
 		var s = split[i];
 
@@ -48,6 +63,10 @@ function parseFilter(name, str, data){
 
 		if(s.indexOf("Placeholder") > -1){
 			filter['placeholder'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")"));
+		}
+
+		if(s.indexOf("Hidden") > -1){
+			filter['visibility'] = false;
 		}
 
 	}

@@ -7,23 +7,36 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter',
 
 		$scope.availableTasks = [];
 
-		$scope.criteria = {}
+		$scope.criteria = {};
 
-		$scope.filters = {}
+		$scope.filters = {};
+
+		$scope.visibility = {};
+
+		$scope.filtersList = [];
+
+		$scope.displayMode = 'list';
 
 		gestures.all(function(data, tabletop){
 			$scope.$apply(function(){
 
-				$scope.filters = parseFilters(data);
+				var filterRow = data[0]; // Row with column configuration
 
-				$scope.gestures = data.slice(1);
+				data = data.slice(1); // Rest of the data
+
+				data = data.slice(200); // TODO: REMOVE THIS
+
+				$scope.filters = parseFilters(filterRow, data);
+
+				$scope.filtersList = toList($scope.filters);
+
+				$scope.gestures = data;
 
 				$scope.filteredGestures = $scope.gestures;
 
-				for(f in $scope.filters){
-					if($scope.filters[f].input == "checkbox"){
-						$scope.criteria[$scope.filters[f].field] = [];
-					}
+				for(var i in $scope.filters){
+					var filter = $scope.filters[i];
+					$scope.visibility[filter.field] = filter.visibility;
 				}
 
 			});
@@ -31,7 +44,7 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter',
 
 		$scope.doFilter = function doFilter(){
 			$scope.filteredGestures = $scope.gestures;
-			for(i in $scope.filters){
+			for(var i in $scope.filters){
 				var filter = $scope.filters[i];
 				var pattern = {};
 
@@ -43,9 +56,11 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter',
 						$scope.filteredGestures = $filter('inArray')($scope.filteredGestures, $scope.criteria[filter.field], filter.field);
 				}
 			}
+		}
 
-			console.log($scope.criteria['telekinesis'])
-
+		$scope.clearFilter = function clearFilter(){
+			$scope.criteria = {};
+			$scope.doFilter();
 		}
 
 	}
