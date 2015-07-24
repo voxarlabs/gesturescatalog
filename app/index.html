@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="bower_components/angular-toggle-switch/angular-toggle-switch.css">
   <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.min.css">
   <link rel="stylesheet" href="bower_components/angular-loading/angular-loading.css">
+  <link rel="stylesheet" href="bower_components/angular-carousel/dist/angular-carousel.min.css">
   <link rel="stylesheet" href="css/default.css">
 
   <!-- Javascript (dependencies) -->
@@ -34,6 +35,10 @@
   <script type="text/javascript" src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
   <script type="text/javascript" src="bower_components/spin.js/spin.js"></script>
   <script type="text/javascript" src="bower_components/angular-loading/angular-loading.min.js"></script>
+  <script type="text/javascript" src="bower_components/angular-touch/angular-touch.min.js"></script>
+  <script type="text/javascript" src="bower_components/angular-carousel/dist/angular-carousel.min.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script type="text/javascript" src="bower_components/angular-youtube-mb/dist/angular-youtube-embed.min.js"></script>
 
   <!-- Javascript (application) -->
   <script type="text/javascript" src="js/utils.js"></script>
@@ -43,15 +48,37 @@
   <script type="text/javascript" src="js/filters.js"></script>
   <script type="text/javascript" src="js/directives.js"></script>
   
-
-
   <script type="text/javascript">
   $(document).ready(function(){
 
     $('.filter-header a').click(function(e){
       $(this).closest('.filter').toggleClass('visible');
       e.preventDefault();
-    })
+    });
+
+    var sidebarVisible = true;
+
+    $('#hide-sidebar').click(function(e){
+
+      var svg = $(this).children("svg");
+
+      if(sidebarVisible){
+        svg.attr("class", "hide-sidebar-up");
+        $('#sidebar').slideUp(400, function(){
+          $('#results').removeClass('col-md-9');
+          $('#results').addClass('col-md-12');
+        });
+        
+      }else{
+        svg.attr("class", "hide-sidebar-down");
+        $('#sidebar').slideDown();
+        $('#results').removeClass('col-md-12');
+        $('#results').addClass('col-md-9');
+      }
+
+      sidebarVisible = !sidebarVisible;
+      e.preventDefault();
+    });
 
   })
   </script>
@@ -109,10 +136,18 @@
       <div id="pre-content" class="row">
         <div id="filters" class="col-md-3">
           <h1>FILTERS</h1>
-          <a href="" ng-click="clearFilter()" tooltip="Reset all the filters">
+
+          <a id="hide-sidebar" href="" tooltip="Toggle sidebar visibility">
+            <svg class="hide-sidebar-down" width="30px" height="30px" viewBox="0 0 70 90" xml:space="preserve">
+              <polyline fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" points="45.63,80.8 0.375,43.087 45.63,5.375 "/>
+            </svg>
+          </a>
+
+          <a id="clear-filters" href="" ng-click="clearFilter()" tooltip="Reset all the filters">
             <img src="img/clear_icon.png" />
             <span>CLEAR</span>
           </a>
+
         </div>
 
         <div id="result-data" class="col-md-9">
@@ -129,7 +164,7 @@
             <div class="filter-header">
                 <h2>
                   <a href="#" filter-drawer>
-                    <span class="filter-name">{{ f.name }}</span>
+                    <span class="filter-name">{{ f.name | uppercase }}</span>
                   </a>
                   <toggle-switch tooltip="Click to toggle the visibility of this property on cards/table"
                     ng-model="schema[f.field].visibility"
@@ -197,9 +232,15 @@
 
           </div> <!-- End Results utils -->
 
-          <div id="results-container">
+          <div vertilize-container id="results-container">
 
             <div ui-view></div>
+
+            <pagination
+              max-size="15"
+              ng-model="currentPage"
+              items-per-page="10"
+              total-items="filteredGestures.length"></pagination>
 
           </div>
 

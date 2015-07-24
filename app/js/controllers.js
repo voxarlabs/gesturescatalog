@@ -15,14 +15,14 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 
 		$loading.start('data');
 
+		$scope.currentPage = 1;
+
 		gestures.all(function(data, tabletop){
 			$scope.$apply(function(){
 
 				var schemasRow = data[0]; // Row with column configuration
 
 				data = data.slice(1); // Rest of the data
-
-				data = data.slice(200); // TODO: REMOVE THIS
 
 				$scope.schema = parseSchemas(schemasRow, data);
 
@@ -53,6 +53,7 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 				}
 			}
 
+			$scope.currentPage = 1;
 
 		}
 
@@ -60,6 +61,13 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 			$scope.criteria = {};
 			$scope.doFilter();
 		}
+
+		$scope.$watch("currentPage + filteredGestures.length", function(){
+			var begin = (($scope.currentPage - 1) * 10);
+		    var end = begin + 10;
+
+		    $scope.pageGestures = $scope.filteredGestures.slice(begin, end);
+		});
 
 
 }]);

@@ -10,7 +10,9 @@ var gesturesApp = angular.module('gesturesApp', [
 	'ui.bootstrap',
 	'ngResource',
 	'angular-loading-bar',
-	'darthwade.dwLoading'
+	'darthwade.dwLoading',
+	'angular-carousel'	,
+	'youtube-embed'
 ]);
 
 gesturesApp.config(function($stateProvider, $urlRouterProvider) {

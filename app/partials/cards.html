@@ -1,12 +1,19 @@
-<div class="result-single" 
-	ng-repeat="gesture in filteredGestures">
-  <img src="http://popseries.com.br/wp-content/uploads/2014/09/Minority-Report.jpg" style="width: 100%" />
+
+
+<div vertilize class="result-single" 
+	ng-repeat="gesture in pageGestures">
 
   <div class="result-single-data">
 
+  	<youtube-video 
+  		video-id="gesture.youtubeid" 
+  		player-width="'230px'" 
+  		player-height="'200px'">
+  	</youtube-video>
+
     <div ng-repeat="(field, value) in gesture">
 
-    	<p ng-if="schema[field].visibility"><strong>{{ field }}</strong>: {{ value }} </p>
+    	<p ng-if="schema[field].visibility"><strong>{{ schema[field].name }}</strong>: {{ value }} </p>
 
     </div>
 
