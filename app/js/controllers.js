@@ -9,13 +9,15 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 
 		$scope.schemaList = [];
 
+		$scope.columns = [];
+
 		$scope.criteria = {};
 
 		$scope.displayMode = 'list';
 
-		$loading.start('data');
-
 		$scope.currentPage = 1;
+
+		$loading.start('data');
 
 		gestures.all(function(data, tabletop){
 			$scope.$apply(function(){
@@ -31,6 +33,8 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 				$scope.gestures = data;
 
 				$scope.filteredGestures = $scope.gestures;
+
+				$scope.updateColumns();
 
 				$loading.finish('data');
 
@@ -68,6 +72,14 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 
 		    $scope.pageGestures = $scope.filteredGestures.slice(begin, end);
 		});
+
+		$scope.updateColumns = function updateColumns(){
+			$scope.columns = [];
+			for(var key in $scope.schema){
+				if($scope.schema[key].visibility)
+					$scope.columns.push(key);
+			}
+		}
 
 
 }]);

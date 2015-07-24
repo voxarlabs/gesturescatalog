@@ -39,6 +39,7 @@
   <script type="text/javascript" src="bower_components/angular-carousel/dist/angular-carousel.min.js"></script>
   <script src="https://www.youtube.com/iframe_api"></script>
   <script type="text/javascript" src="bower_components/angular-youtube-mb/dist/angular-youtube-embed.min.js"></script>
+  <script type="text/javascript" src="bower_components/angular-microtext/angular-microtext.js"></script>
 
   <!-- Javascript (application) -->
   <script type="text/javascript" src="js/utils.js"></script>
@@ -167,6 +168,7 @@
                     <span class="filter-name">{{ f.name | uppercase }}</span>
                   </a>
                   <toggle-switch tooltip="Click to toggle the visibility of this property on cards/table"
+                    ng-click="updateColumns()"
                     ng-model="schema[f.field].visibility"
                     knob-label="VISIBLE"
                     on-label="VISIBLE"
