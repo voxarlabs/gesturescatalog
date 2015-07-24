@@ -18,57 +18,62 @@ function toList(dict){
 	return list;
 }
 
-function parseFilters(filterRow, data){
-	var filters = {};
-	for(var col in filterRow){
-		if(filterRow[col] && filterRow[col].length > 0){
-			var filter = parseFilter(col, filterRow[col], data);
-			filters[col] = filter;
-		}
+function parseSchemas(schemasRow, data){
+	var schemas = {};
+	for(var col in schemasRow){
+		if(col != 'rowNumber')
+			schemas[col] = parseSchema(col, schemasRow[col], data);;
 	}
-	return filters;
+	return schemas;
 }
 
-function parseFilter(name, str, data){
-	var split = str.split(';');
-	var filter = {
+function parseSchema(name, str, data){
+
+	var schema = {
 		field:name, 
-		name: name, 
-		placeholder:name, 
-		type: 'text', 
+		name: name,  
+		type: 'text',
+		visibility: true,
 		filterable: false, 
-		input: 'text-field',
-		visibility: true
+		filter: {
+			placeholder: name,
+			input: 'text-field',
+			options: []
+		} 
 	};
 
+	if(!str || str.length == 0) return schema;
+
+	var split = str.split(';');
+	
 	for(var i in split){
 		
 		var s = split[i];
 
 		if(s.indexOf("Type") > -1){
-			filter['type'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")")).toLowerCase();
+			schema['type'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")")).toLowerCase();
 		}
 
 		if(s.indexOf("Filterable") > -1){
-			filter['filterable'] = true;
-			filter['input'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")"));
-			if(filter['input'] == 'select' || filter['input'] == 'checkbox'){
-				filter['options'] = getUniqueOptions(data, name);
+			schema['filterable'] = true;
+			schema['filter']['input'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")"));
+			if(schema['filter']['input'] == 'select' || schema['filter']['input'] == 'checkbox'){
+				schema['filter']['options'] = getUniqueOptions(data, name);
 			}
 		}
 
 		if(s.indexOf("Name") > -1){
-			filter['name'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")"));
+			schema['name'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")"));
 		}
 
 		if(s.indexOf("Placeholder") > -1){
-			filter['placeholder'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")"));
+			schema['filter']['placeholder'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")"));
 		}
 
 		if(s.indexOf("Hidden") > -1){
-			filter['visibility'] = false;
+			schema['visibility'] = false;
 		}
 
 	}
-	return filter;
+	return schema;
 }

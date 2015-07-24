@@ -6,7 +6,7 @@
 
     <div ng-repeat="(field, value) in gesture">
 
-    	<p ng-if="visibility[field]"> {{ value }} </p>
+    	<p ng-if="schema[field].visibility"><strong>{{ field }}</strong>: {{ value }} </p>
 
     </div>
 

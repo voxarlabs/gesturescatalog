@@ -5,15 +5,11 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 
 		$scope.filteredGestures = [];
 
-		$scope.availableTasks = [];
+		$scope.schema = {};
+
+		$scope.schemaList = [];
 
 		$scope.criteria = {};
-
-		$scope.filters = {};
-
-		$scope.visibility = {};
-
-		$scope.filtersList = [];
 
 		$scope.displayMode = 'list';
 
@@ -22,24 +18,19 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 		gestures.all(function(data, tabletop){
 			$scope.$apply(function(){
 
-				var filterRow = data[0]; // Row with column configuration
+				var schemasRow = data[0]; // Row with column configuration
 
 				data = data.slice(1); // Rest of the data
 
 				data = data.slice(200); // TODO: REMOVE THIS
 
-				$scope.filters = parseFilters(filterRow, data);
+				$scope.schema = parseSchemas(schemasRow, data);
 
-				$scope.filtersList = toList($scope.filters);
+				$scope.schemaList = toList($scope.schema);
 
 				$scope.gestures = data;
 
 				$scope.filteredGestures = $scope.gestures;
-
-				for(var i in $scope.filters){
-					var filter = $scope.filters[i];
-					$scope.visibility[filter.field] = filter.visibility;
-				}
 
 				$loading.finish('data');
 
@@ -48,18 +39,21 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 
 		$scope.doFilter = function doFilter(){
 			$scope.filteredGestures = $scope.gestures;
-			for(var i in $scope.filters){
-				var filter = $scope.filters[i];
-				var pattern = {};
+			for(var i in $scope.schema){
+				var schema = $scope.schema[i];
+				var filter = schema.filter;
 
-				if(filter.type == 'text' && filter.input == 'text-field'){
-					pattern[filter.field] = $scope.criteria[filter.field];
+				if(filter.input == 'text-field'){
+					var pattern = {};
+					pattern[schema.field] = $scope.criteria[schema.field];
 					$scope.filteredGestures = $filter('filter')($scope.filteredGestures, pattern);
-				}else if(filter.type == 'text' && (filter.input == 'select' || filter.input == 'checkbox')){
-					if($scope.criteria[filter.field] && $scope.criteria[filter.field].length > 0)
-						$scope.filteredGestures = $filter('inArray')($scope.filteredGestures, $scope.criteria[filter.field], filter.field);
+				}else if(filter.input == 'select' || filter.input == 'checkbox'){
+					if($scope.criteria[schema.field] && $scope.criteria[schema.field].length > 0)
+						$scope.filteredGestures = $filter('inArray')($scope.filteredGestures, $scope.criteria[schema.field], schema.field);
 				}
 			}
+
+
 		}
 
 		$scope.clearFilter = function clearFilter(){
