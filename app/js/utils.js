@@ -35,6 +35,7 @@ function parseSchema(name, str, data){
 		type: 'text',
 		visibility: true,
 		filterable: false, 
+		sortable: false,
 		filter: {
 			placeholder: name,
 			input: 'text-field',
@@ -72,6 +73,10 @@ function parseSchema(name, str, data){
 
 		if(s.indexOf("Hidden") > -1){
 			schema['visibility'] = false;
+		}
+
+		if(s.indexOf("Sortable") > -1){
+			schema['sortable'] = true;
 		}
 
 	}

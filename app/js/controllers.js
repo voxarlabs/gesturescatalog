@@ -13,6 +13,8 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 
 		$scope.criteria = {};
 
+		$scope.sorting = '';
+
 		$scope.displayMode = 'list';
 
 		$scope.currentPage = 1;
@@ -29,6 +31,13 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 				$scope.schema = parseSchemas(schemasRow, data);
 
 				$scope.schemaList = toList($scope.schema);
+
+				for(var i in $scope.schema){
+					if($scope.schema[i]['sortable']){
+						$scope.sorting = $scope.schema[i];
+						break;
+					}
+				}
 
 				$scope.gestures = data;
 
@@ -58,7 +67,14 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 			}
 
 			$scope.currentPage = 1;
+		}
 
+		$scope.doSort = function doSort(field){
+			$scope.sorting = $scope.schema[field];
+			$scope.filteredGestures = $filter('orderBy')($scope.filteredGestures, field);
+
+			$scope.currentPage = 1;
+			$scope.updatePaging();
 		}
 
 		$scope.clearFilter = function clearFilter(){
@@ -66,12 +82,14 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 			$scope.doFilter();
 		}
 
-		$scope.$watch("currentPage + filteredGestures.length", function(){
+		$scope.updatePaging = function updatePaging(){
 			var begin = (($scope.currentPage - 1) * 10);
 		    var end = begin + 10;
 
 		    $scope.pageGestures = $scope.filteredGestures.slice(begin, end);
-		});
+		}
+
+		$scope.$watch("currentPage + filteredGestures.length", $scope.updatePaging);
 
 		$scope.updateColumns = function updateColumns(){
 			$scope.columns = [];

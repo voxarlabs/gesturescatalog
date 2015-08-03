@@ -1,7 +1,5 @@
-
-
 <div vertilize class="result-single" 
-	ng-repeat="gesture in pageGestures">
+	ng-repeat="gesture in pageGestures | orderBy:sorting">
 
   <div class="result-single-data">
 
