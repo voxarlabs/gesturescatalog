@@ -13,9 +13,11 @@
 
     <div ng-repeat="(field, value) in gesture">
 
-    	<p ng-if="schema[field].visibility"><strong>{{ schema[field].name }}</strong>: {{ value }} </p>
+    	<p ng-if="schema[field].visibility"><strong>{{ schema[field].name | capitalize }}</strong>: {{ value }} </p>
 
     </div>
+
+    <a class="result-single-detail" href="">CLICK TO VIEW DETAILS</a>
 
   </div>
 </div>
