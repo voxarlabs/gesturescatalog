@@ -1,13 +1,15 @@
 <div vertilize class="result-single" 
-	ng-repeat="gesture in pageGestures | orderBy:sorting">
+	ng-repeat="gesture in pageGestures">
 
   <div class="result-single-data">
 
-  	<youtube-video 
-  		video-id="gesture.youtubeid" 
-  		player-width="'230px'" 
-  		player-height="'200px'">
-  	</youtube-video>
+
+  <youtube-thumb
+      video-id="gesture.youtubeid"
+      player-width="230"
+      player-height="200">
+   </youtube-thumb>
+  	
 
     <div ng-repeat="(field, value) in gesture">
 
