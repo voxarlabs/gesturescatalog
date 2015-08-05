@@ -58,7 +58,7 @@ function parseSchema(name, str, data){
 		if(s.indexOf("Filterable") > -1){
 			schema['filterable'] = true;
 			schema['filter']['input'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")"));
-			if(schema['filter']['input'] == 'select' || schema['filter']['input'] == 'checkbox'){
+			if(schema['filter']['input'] == 'select' || schema['filter']['input'] == 'checkbox' || schema['filter']['input'] == 'tag'){
 				schema['filter']['options'] = getUniqueOptions(data, name);
 			}
 		}

@@ -15,6 +15,8 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 
 		$scope.sorting = '';
 
+		$scope.sortingReverse = false;
+
 		$scope.displayMode = 'list';
 
 		$scope.currentPage = 1;
@@ -63,6 +65,9 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 				}else if(filter.input == 'select' || filter.input == 'checkbox'){
 					if($scope.criteria[schema.field] && $scope.criteria[schema.field].length > 0)
 						$scope.filteredGestures = $filter('inArray')($scope.filteredGestures, $scope.criteria[schema.field], schema.field);
+				}else if(filter.input == 'tag'){
+					if($scope.criteria[schema.field] && $scope.criteria[schema.field].length > 0)
+						$scope.filteredGestures = $filter('inArrayTag')($scope.filteredGestures, $scope.criteria[schema.field], schema.field);
 				}
 			}
 
@@ -71,10 +76,15 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 
 		$scope.doSort = function doSort(field){
 			$scope.sorting = $scope.schema[field];
-			$scope.filteredGestures = $filter('orderBy')($scope.filteredGestures, field);
+			$scope.filteredGestures = $filter('orderBy')($scope.filteredGestures, field, $scope.sortingReverse);
 
 			$scope.currentPage = 1;
 			$scope.updatePaging();
+		}
+
+		$scope.setSortReverse = function setSortReverse(reverse){
+			$scope.sortingReverse = reverse;
+			$scope.doSort($scope.sorting.field);
 		}
 
 		$scope.clearFilter = function clearFilter(){
