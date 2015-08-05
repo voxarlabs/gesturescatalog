@@ -4,16 +4,22 @@
   <div class="result-single-data">
 
 
-  <youtube-thumb
-      video-id="gesture.youtubeid"
-      player-width="230"
-      player-height="200">
-   </youtube-thumb>
+    <youtube-thumb
+        video-id="gesture.youtubeid"
+        player-width="230"
+        player-height="200">
+    </youtube-thumb>
+
+    <div ng-repeat="(field, value) in gesture">
+
+        <h1 ng-if="schema[field].title" class="result-single-title">{{ value }}</h1>
+
+    </div>
   	
 
     <div ng-repeat="(field, value) in gesture">
 
-    	<p ng-if="schema[field].visibility"><strong>{{ schema[field].name | capitalize }}</strong>: {{ value }} </p>
+    	<p ng-if="schema[field].visibility && !schema[field].title"><strong>{{ schema[field].name | capitalize }}</strong>: {{ value }} </p>
 
     </div>
 

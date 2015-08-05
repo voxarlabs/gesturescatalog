@@ -409,7 +409,11 @@ header nav #voxar a:hover{
 }
 
 .result-single h1{
-	font: 600 14px "Open Sans";
+	font: 600 18px "Open Sans";
+	margin-top: 10px;
+	margin-bottom: 0px;
+	margin-left: 10px;
+
 }
 
 .result-single-data{

@@ -36,6 +36,7 @@ function parseSchema(name, str, data){
 		visibility: true,
 		filterable: false, 
 		sortable: false,
+		title: false,
 		filter: {
 			placeholder: name,
 			input: 'text-field',
@@ -53,6 +54,17 @@ function parseSchema(name, str, data){
 
 		if(s.indexOf("Type") > -1){
 			schema['type'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")")).toLowerCase();
+			continue;
+		}
+
+		if(s.indexOf("Name") > -1){
+			schema['name'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")"));
+			continue;
+		}
+
+		if(s.indexOf("Placeholder") > -1){
+			schema['filter']['placeholder'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")"));
+			continue;
 		}
 
 		if(s.indexOf("Filterable") > -1){
@@ -61,22 +73,22 @@ function parseSchema(name, str, data){
 			if(schema['filter']['input'] == 'select' || schema['filter']['input'] == 'checkbox' || schema['filter']['input'] == 'tag'){
 				schema['filter']['options'] = getUniqueOptions(data, name);
 			}
+			continue;
 		}
 
-		if(s.indexOf("Name") > -1){
-			schema['name'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")"));
-		}
-
-		if(s.indexOf("Placeholder") > -1){
-			schema['filter']['placeholder'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")"));
+		if(s.indexOf("Title") > -1){
+			schema['title'] = true;
+			continue;
 		}
 
 		if(s.indexOf("Hidden") > -1){
 			schema['visibility'] = false;
+			continue;
 		}
 
 		if(s.indexOf("Sortable") > -1){
 			schema['sortable'] = true;
+			continue;
 		}
 
 	}
