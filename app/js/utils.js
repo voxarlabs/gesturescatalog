@@ -37,6 +37,7 @@ function parseSchema(name, str, data){
 		filterable: false, 
 		sortable: false,
 		title: false,
+		video: false,
 		filter: {
 			placeholder: name,
 			input: 'text-field',
@@ -73,6 +74,11 @@ function parseSchema(name, str, data){
 			if(schema['filter']['input'] == 'select' || schema['filter']['input'] == 'checkbox' || schema['filter']['input'] == 'tag'){
 				schema['filter']['options'] = getUniqueOptions(data, name);
 			}
+			continue;
+		}
+
+		if(s.indexOf("Video") > -1){
+			schema['video'] = true;
 			continue;
 		}
 

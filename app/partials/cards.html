@@ -3,12 +3,17 @@
 
   <div class="result-single-data">
 
+    <div ng-repeat="(field, value) in gesture">
 
-    <youtube-thumb
-        video-id="gesture.youtubeid"
-        player-width="230"
-        player-height="200">
-    </youtube-thumb>
+        <youtube-thumb ng-if="schema[field].video"
+          video-id="value"
+          player-width="230"
+          player-height="200">
+      </youtube-thumb>
+
+    </div>
+
+    
 
     <div ng-repeat="(field, value) in gesture">
 
