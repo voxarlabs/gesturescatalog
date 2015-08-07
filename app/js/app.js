@@ -23,10 +23,14 @@ gesturesApp.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('cards', {
       url: "/",
-      templateUrl: "partials/cards.html"
+      views: {
+        "results": { templateUrl: "partials/cards.html" }
+      }
     })
     .state('table', {
       url: "/table",
-      templateUrl: "partials/table.html"
+      views: {
+        "results": { templateUrl: "partials/table.html" }
+      }
     })
 });

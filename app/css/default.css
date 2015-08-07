@@ -65,6 +65,10 @@
 	font: 500 20px "Open Sans";
 }
 
+.modal-loading{
+	position: relative !important;
+}
+
 /* Header */
 header{
 	background: #fdfdfd;

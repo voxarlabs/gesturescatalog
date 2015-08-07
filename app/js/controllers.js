@@ -109,5 +109,33 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 			}
 		}
 
+		$scope.showDetails = function showDetails(id){
+			var modalInstance = $modal.open({
+		      animation: $scope.animationsEnabled,
+		      templateUrl: 'partials/details.html',
+		      controller: 'GesturesDetailsCtrl',
+		      size: 'lg',
+		      resolve: {
+		        item: function () {
+		          return $scope.gestures[id];
+		        },
+		        schema: function(){
+		        	return $scope.schema;
+		        }
+		      }
+		    });
+		}
+
 
 }]);
+
+
+gesturesApp.controller('GesturesDetailsCtrl', ['Gestures', '$scope', '$state', 'dwLoading', 'item', 'schema',
+	function(gestures, $scope, $state, $loading, item, schema){
+		
+		$scope.item = item;
+
+		$scope.schema = schema;
+
+	}
+]);
