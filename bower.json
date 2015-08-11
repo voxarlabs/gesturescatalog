@@ -13,7 +13,6 @@
     "tabletop": "~1.4.2",
     "angular-paging": "~1.0.3",
     "angular-filter": "~0.5.4",
-    "ui-select": "*",
     "checklist-model": "~0.2.4",
     "angular-toggle-switch": "~1.3.0",
     "angular-ui-router": "~0.2.15",
@@ -23,7 +22,8 @@
     "angular-carousel": "~0.3.12",
     "angular-youtube-mb": "~1.0.2",
     "angular-microtext": "~0.0.2",
-    "angular-animate": "~1.4.3"
+    "angular-animate": "~1.4.3",
+    "ui-select": "git://github.com/angular-ui/ui-select.git#1e1d9088271a52d8882ec5b6ebd83090b048b3bc"
   },
   "resolutions": {
     "angular": "1.4.3"

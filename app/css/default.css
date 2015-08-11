@@ -240,6 +240,7 @@ header nav #voxar a:hover{
 	background: #566062;
 	padding: 0px;
 	position: relative;
+	height: 2000px;
 }
 
 .filter-header{
@@ -553,6 +554,7 @@ header nav #voxar a:hover{
 .ui-select-bootstrap .ui-select-choices-row > a{
 	white-space: normal !important	;
 }
+
 
 /* Details Modal */
 #details-modal-video{

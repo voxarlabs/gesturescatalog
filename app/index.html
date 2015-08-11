@@ -182,7 +182,7 @@
 
               <ui-select multiple ng-if="f.filter.input == 'select'" ng-change="doFilter()"
                   ng-model="criteria[f.field]" 
-                  title="Choose tasks" 
+                  title="f.placeholder" 
                   append-to-body="true">
                 <ui-select-match placeholder="{{ f.filter.placeholder }}">{{$item}}</ui-select-match>
                 <ui-select-choices repeat="opt in f.filter.options | filter:$select.search">
@@ -195,9 +195,9 @@
                   ng-change="doFilter()" 
                   tagging-label="" 
                   ng-model="criteria[f.field]" 
-                  theme="bootstrap" 
-                  sortable="true"
-                  append-to-body="true">
+                  title="f.placeholder"
+                  append-to-body="true"
+                  style="top: 5px !important;">
                 <ui-select-match placeholder="{{ f.filter.placeholder }}">
                   {{$item}}
                 </ui-select-match>
