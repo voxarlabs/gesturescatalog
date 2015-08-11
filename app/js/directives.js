@@ -10,6 +10,23 @@ gesturesApp.directive("filterDrawer", function() {
     }
 });
 
+gesturesApp.directive("getWidth", ['$window', function($window){
+	return {
+		restrict: "EA",
+		scope: false,
+		link: function(scope, elem, attrs){
+
+			scope[attrs.ngModel] = elem[0].offsetWidth;
+
+            angular.element($window).bind('resize', function(){
+	         	scope[attrs.ngModel] = elem[0].offsetWidth;
+	            scope.$digest();
+	        });
+
+		}
+	}
+}])
+
 gesturesApp.directive("youtubeThumb", function($compile){
 	return {
 		restrict: "E",

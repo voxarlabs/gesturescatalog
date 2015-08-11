@@ -14,7 +14,8 @@ var gesturesApp = angular.module('gesturesApp', [
 	'angular-carousel',
 	'youtube-embed',
 	'rodrigoalves.microtext',
-	'ngAnimate'
+	'ngAnimate',
+	'wu.masonry'
 ]);
 
 gesturesApp.config(function($stateProvider, $urlRouterProvider) {

@@ -41,6 +41,19 @@
   <script type="text/javascript" src="bower_components/angular-youtube-mb/dist/angular-youtube-embed.min.js"></script>
   <script type="text/javascript" src="bower_components/angular-animate/angular-animate.min.js"></script>
   <script type="text/javascript" src="bower_components/angular-microtext/angular-microtext.js"></script>
+  <script src="bower_components/jquery-bridget/jquery.bridget.js"></script>
+  <script src="bower_components/get-style-property/get-style-property.js"></script>
+  <script src="bower_components/get-size/get-size.js"></script>
+  <script src="bower_components/eventEmitter/EventEmitter.js"></script>
+  <script src="bower_components/eventie/eventie.js"></script>
+  <script src="bower_components/doc-ready/doc-ready.js"></script>
+  <script src="bower_components/matches-selector/matches-selector.js"></script>
+  <script src="bower_components/outlayer/item.js"></script>
+  <script src="bower_components/outlayer/outlayer.js"></script>
+  <script src="bower_components/masonry/masonry.js"></script>
+  <script src="bower_components/imagesloaded/imagesloaded.js"></script>
+
+  <script type="text/javascript" src="bower_components/angular-masonry/angular-masonry.js"></script>
 
   <!-- Javascript (application) -->
   <script type="text/javascript" src="js/utils.js"></script>
@@ -279,14 +292,14 @@
 
           </div> <!-- End Results utils -->
 
-          <div vertilize-container id="results-container">
+          <div id="results-container" get-width ng-model="resultsWidth">
 
             <div ui-view="results"></div>
 
             <pagination
               max-size="15"
               ng-model="currentPage"
-              items-per-page="10"
+              items-per-page="itemsPerPage"
               total-items="filteredGestures.length"></pagination>
 
           </div>

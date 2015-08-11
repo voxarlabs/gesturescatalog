@@ -23,9 +23,10 @@
     "angular-youtube-mb": "~1.0.2",
     "angular-microtext": "~0.0.2",
     "angular-animate": "~1.4.3",
-    "ui-select": "git://github.com/angular-ui/ui-select.git#1e1d9088271a52d8882ec5b6ebd83090b048b3bc"
+    "ui-select": "git://github.com/angular-ui/ui-select.git#1e1d9088271a52d8882ec5b6ebd83090b048b3bc",
+    "angular-masonry": "~0.11.1"
   },
   "resolutions": {
-    "angular": "1.4.3"
+    "angular": "^1.2.9"
   }
 }

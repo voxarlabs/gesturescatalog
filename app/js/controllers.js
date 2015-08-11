@@ -21,6 +21,8 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 
 		$scope.currentPage = 1;
 
+		$scope.itemsPerPage = 10;
+
 		$loading.start('data');
 
 		gestures.all(function(data, tabletop){
@@ -95,8 +97,8 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 		}
 
 		$scope.updatePaging = function updatePaging(){
-			var begin = (($scope.currentPage - 1) * 10);
-		    var end = begin + 10;
+			var begin = (($scope.currentPage - 1) * $scope.itemsPerPage);
+		    var end = begin + $scope.itemsPerPage;
 
 		    $scope.pageGestures = $scope.filteredGestures.slice(begin, end);
 		}
@@ -125,6 +127,11 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 		      }
 		    });
 		}
+
+		$scope.$watch("resultsWidth", function(){
+			$scope.itemsPerPage = Math.floor($scope.resultsWidth/270)*3;
+			console.log('Organizing ' + $scope.resultsWidth + ' with ' + $scope.itemsPerPage + " items per page");
+		});
 
 
 }]);
