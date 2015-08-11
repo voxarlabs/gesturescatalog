@@ -34,6 +34,7 @@ function parseSchema(name, str, data){
 		name: name,  
 		type: 'text',
 		visibility: true,
+		shown: true,
 		filterable: false, 
 		sortable: false,
 		title: false,
@@ -89,6 +90,7 @@ function parseSchema(name, str, data){
 
 		if(s.indexOf("Hidden") > -1){
 			schema['visibility'] = false;
+			schema['shown'] = false;
 			continue;
 		}
 

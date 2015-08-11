@@ -161,23 +161,26 @@
 
         <div id="sidebar" class="col-md-3">
 
-          <div class="filter visible" ng-repeat="f in schemaList | filter: {filterable:true}">
+          <div class="filter" ng-class="{'visible' : f.filterable}" ng-repeat="f in schemaList | filter: {visibility:true}">
 
             <div class="filter-header">
                 <h2>
-                  <a href="#" filter-drawer>
+                  <a href="" filter-drawer ng-if="f.filterable" tooltip="Click to show filtering options">
+                    <span class="filter-name">{{ f.name | uppercase }}</span>
+                  </a>
+                  <a href="" ng-if="!f.filterable" ng-class="{'filter-simple': !f.filterable}">
                     <span class="filter-name">{{ f.name | uppercase }}</span>
                   </a>
                   <toggle-switch tooltip="Click to toggle the visibility of this property on cards/table"
                     ng-click="updateColumns()"
-                    ng-model="schema[f.field].visibility"
+                    ng-model="schema[f.field].shown"
                     knob-label="VISIBLE"
                     on-label="VISIBLE"
                     off-label="HIDDEN"><toggle-switch>
                 </h2>
             </div>
             
-            <div class="filter-content">
+            <div class="filter-content" ng-if="f.filterable">
               <input ng-if="f.filter.input == 'text-field'" ng-change="doFilter()" type="text" ng-model="criteria[f.field]" placeholder="{{ f.filter.placeholder }}" />
 
               <ui-select multiple ng-if="f.filter.input == 'select'" ng-change="doFilter()"

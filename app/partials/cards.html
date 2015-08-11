@@ -22,7 +22,7 @@
 
     <div ng-repeat="(field, value) in gesture">
 
-    	<p ng-if="schema[field].visibility && !schema[field].title"><strong>{{ schema[field].name | capitalize }}</strong>: {{ value }} </p>
+    	<p ng-if="schema[field].shown && !schema[field].title"><strong>{{ schema[field].name | capitalize }}</strong>: {{ value }} </p>
 
     </div>
 

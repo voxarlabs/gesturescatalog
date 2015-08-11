@@ -267,6 +267,10 @@ header nav #voxar a:hover{
 	color: #eeeeee;
 }
 
+.filter-header h2 a.filter-simple{
+	cursor: default;
+}
+
 .filter-header h2 a span.filter-name{
 	background: url("../img/filter_hidden_arrow.png") no-repeat 4px 4px;
 	display: inline-block;
