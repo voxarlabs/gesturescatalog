@@ -13,7 +13,8 @@ var gesturesApp = angular.module('gesturesApp', [
 	'darthwade.dwLoading',
 	'angular-carousel',
 	'youtube-embed',
-	'rodrigoalves.microtext'
+	'rodrigoalves.microtext',
+	'ngAnimate'
 ]);
 
 gesturesApp.config(function($stateProvider, $urlRouterProvider) {

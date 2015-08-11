@@ -1,18 +1,42 @@
-<div ng-repeat="(field, value) in item">
-
-    <div ng-if="schema[field].title" class="modal-header">
-	    <h3 class="modal-title">{{ value }}</h3>
-	</div>
-
+<div class="modal-header" ng-repeat="(field, value) in item" ng-if="schema[field].title">
+	 <h3 class="modal-title">{{ value }}</h3>
 </div>
 
 <div class="modal-body">
 
-    <div ng-repeat="(field, value) in item">
+    <div class="container-fluid">
 
-    	<p ng-if="schema[field].visibility && !schema[field].title"><strong>{{ schema[field].name | capitalize }}</strong>: {{ value }} </p>
+      <div class="col-md-6">
+
+          <youtube-thumb ng-repeat="(field, value) in item" ng-if="schema[field].video"
+            video-id="value"
+            player-width="400"
+            player-height="400">
+          </youtube-thumb>
+
+          <a href="" ng-click="showDetails(7)">CLICK TO VIEW DETAILS</a>
+
+
+          <br style="clear: both" />
+
+      </div>
+
+      <div class="col-md-6" id="details-modal-content">
+
+          <p ng-repeat="(field, value) in item" ng-if="schema[field].visibility && !schema[field].title">
+            <strong><span>{{ schema[field].name | capitalize }}</span></strong>
+            {{ value }} 
+          </p>
+
+      </div>
 
     </div>
+
+    
+
+    
+
+    
 
 </div>
 <div class="modal-footer">

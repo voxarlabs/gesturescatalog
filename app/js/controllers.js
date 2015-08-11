@@ -115,12 +115,10 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 		      templateUrl: 'partials/details.html',
 		      controller: 'GesturesDetailsCtrl',
 		      size: 'lg',
+		      scope: $scope,
 		      resolve: {
 		        item: function () {
-		          return $scope.gestures[id];
-		        },
-		        schema: function(){
-		        	return $scope.schema;
+		          return $scope.gestures[id-2];
 		        }
 		      }
 		    });
@@ -130,12 +128,10 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 }]);
 
 
-gesturesApp.controller('GesturesDetailsCtrl', ['Gestures', '$scope', '$state', 'dwLoading', 'item', 'schema',
-	function(gestures, $scope, $state, $loading, item, schema){
+gesturesApp.controller('GesturesDetailsCtrl', ['Gestures', '$scope', '$state', 'dwLoading', 'item',
+	function(gestures, $scope, $state, $loading, item){
 		
 		$scope.item = item;
-
-		$scope.schema = schema;
 
 	}
 ]);

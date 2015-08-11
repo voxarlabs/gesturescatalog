@@ -39,6 +39,7 @@
   <script type="text/javascript" src="bower_components/angular-carousel/dist/angular-carousel.min.js"></script>
   <script src="https://www.youtube.com/iframe_api"></script>
   <script type="text/javascript" src="bower_components/angular-youtube-mb/dist/angular-youtube-embed.min.js"></script>
+  <script type="text/javascript" src="bower_components/angular-animate/angular-animate.min.js"></script>
   <script type="text/javascript" src="bower_components/angular-microtext/angular-microtext.js"></script>
 
   <!-- Javascript (application) -->
@@ -91,7 +92,7 @@
 
     <header class="row">
       <div class="col-md-4">
-        <a href="#" id="logo">
+        <a href="" ui-sref="cards" id="logo">
           <img src="img/logo.png" />
         </a>
       </div>
@@ -189,7 +190,14 @@
                 </ui-select-choices>
               </ui-select>
 
-              <ui-select ng-if="f.filter.input == 'tag'" ng-change="doFilter()" multiple tagging tagging-label="" ng-model="criteria[f.field]" theme="bootstrap" sortable="true">
+              <ui-select multiple tagging
+                  ng-if="f.filter.input == 'tag'" 
+                  ng-change="doFilter()" 
+                  tagging-label="" 
+                  ng-model="criteria[f.field]" 
+                  theme="bootstrap" 
+                  sortable="true"
+                  append-to-body="true">
                 <ui-select-match placeholder="{{ f.filter.placeholder }}">
                   {{$item}}
                 </ui-select-match>

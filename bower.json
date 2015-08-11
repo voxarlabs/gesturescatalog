@@ -22,7 +22,8 @@
     "angular-loading": "~0.1.4",
     "angular-carousel": "~0.3.12",
     "angular-youtube-mb": "~1.0.2",
-    "angular-microtext": "~0.0.2"
+    "angular-microtext": "~0.0.2",
+    "angular-animate": "~1.4.3"
   },
   "resolutions": {
     "angular": "1.4.3"
