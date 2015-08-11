@@ -181,7 +181,7 @@
             </div>
             
             <div class="filter-content" ng-if="f.filterable">
-              <input ng-if="f.filter.input == 'text-field'" ng-change="doFilter()" type="text" ng-model="criteria[f.field]" placeholder="{{ f.filter.placeholder }}" />
+              <input ng-if="f.filter.input == 'text-field'" ng-change="doFilter()" type="text" ng-model="criteria[f.field]" placeholder="{{ f.filter.placeholder }}" ng-model-options="{ debounce: 250 }" />
 
               <ui-select multiple ng-if="f.filter.input == 'select'" ng-change="doFilter()"
                   ng-model="criteria[f.field]" 

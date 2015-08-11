@@ -72,7 +72,9 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 			}
 
 			$scope.currentPage = 1;
+
 		}
+
 
 		$scope.doSort = function doSort(field){
 			$scope.sorting = $scope.schema[field];
