@@ -586,3 +586,7 @@ header nav #voxar a:hover{
 #details-modal-content p strong::after{
 	display: block;
 }	
+
+#teste{
+	background: url('../img/abcd.jpg') no-repeat;
+}
