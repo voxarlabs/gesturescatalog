@@ -15,7 +15,7 @@ module.exports = function(grunt) {
       },
     },
     watch: {
-      files: ['app/partials/**/*'],
+      files: ['app/partials/**/*', 'app/js/**/*', 'app/css/**/*', 'app/index.html'],
       tasks: ['build'],
     },
     useminPrepare: {
