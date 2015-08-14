@@ -16,7 +16,7 @@ angular.module('gesturesApp.templates', []).run(['$templateCache', function($tem
     "</div>\n" +
     "");
   $templateCache.put("partials/cards.html",
-    "<div masonry preserve-order>\n" +
+    "<div masonry preserve-order reload-on-resize>\n" +
     "<div class=\"masonry-brick result-single\" \n" +
     "	ng-repeat=\"gesture in pageGestures\">\n" +
     "\n" +

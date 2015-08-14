@@ -18,7 +18,15 @@ gesturesApp.directive("getWidth", ['$window', function($window){
 
 			scope[attrs.ngModel] = elem[0].offsetWidth;
 
-            angular.element($window).bind('resize', function(){
+			var window = angular.element($window);
+
+			scope.$watch(function(){
+				return elem[0].offsetWidth; 
+			}, function(newValue, oldValue){
+				scope[attrs.ngModel] = newValue;
+			});
+
+            window.bind('resize', function(){
 	         	scope[attrs.ngModel] = elem[0].offsetWidth;
 	            scope.$digest();
 	        });

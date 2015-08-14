@@ -23,30 +23,6 @@
       e.preventDefault();
     });
 
-    var sidebarVisible = true;
-
-    $('#hide-sidebar').click(function(e){
-
-      var svg = $(this).children("svg");
-
-      if(sidebarVisible){
-        svg.attr("class", "hide-sidebar-up");
-        $('#sidebar').slideUp(400, function(){
-          $('#results').removeClass('col-md-9');
-          $('#results').addClass('col-md-12');
-        });
-        
-      }else{
-        svg.attr("class", "hide-sidebar-down");
-        $('#sidebar').slideDown();
-        $('#results').removeClass('col-md-12');
-        $('#results').addClass('col-md-9');
-      }
-
-      sidebarVisible = !sidebarVisible;
-      e.preventDefault();
-    });
-
   })
   </script>
 
@@ -104,8 +80,10 @@
         <div id="filters" class="col-md-3">
           <h1>FILTERS</h1>
 
-          <a id="hide-sidebar" href="" tooltip="Toggle sidebar visibility">
-            <svg class="hide-sidebar-down" width="30px" height="30px" viewBox="0 0 70 90" xml:space="preserve">
+          <a id="hide-sidebar" href="" ng-init="showSidebar=true" ng-click="showSidebar=!showSidebar" tooltip="Toggle sidebar visibility">
+            <svg
+              ng-class="{'hide-sidebar-down': showSidebar, 'hide-sidebar-up': !showSidebar}" 
+              width="30px" height="30px" viewBox="0 0 70 90" xml:space="preserve">
               <polyline fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" points="45.63,80.8 0.375,43.087 45.63,5.375 "/>
             </svg>
           </a>
@@ -124,7 +102,7 @@
 
       <div id="content" class="row">
 
-        <div id="sidebar" class="col-md-3">
+        <div id="sidebar" class="col-md-3" ng-animate=" 'animate' " ng-show="showSidebar">
 
           <div class="filter" ng-class="{'visible' : f.filterable}" ng-repeat="f in schemaList | filter: {visibility:true}">
 
@@ -188,7 +166,7 @@
 
         </div> <!-- End Sidebar -->
 
-        <div id="results" class="col-md-9">
+        <div id="results" ng-class="{'col-md-9': showSidebar, 'col-md-12': !showSidebar}">
 
           <div id="results-utils">
 
