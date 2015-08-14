@@ -80,7 +80,7 @@
         <div id="filters" class="col-md-3">
           <h1>FILTERS</h1>
 
-          <a id="hide-sidebar" href="" ng-init="showSidebar=true" ng-click="showSidebar=!showSidebar" tooltip="Toggle sidebar visibility">
+          <a id="hide-sidebar" href="" ng-init="showSidebar=true" ng-click="showSidebar=!showSidebar; $broadcast('masonry.reload');" tooltip="Toggle sidebar visibility">
             <svg
               ng-class="{'hide-sidebar-down': showSidebar, 'hide-sidebar-up': !showSidebar}" 
               width="30px" height="30px" viewBox="0 0 70 90" xml:space="preserve">
@@ -115,7 +115,6 @@
                     <span class="filter-name">{{ f.name | uppercase }}</span>
                   </a>
                   <toggle-switch tooltip="Click to toggle the visibility of this property on cards/table"
-                    ng-click="updateColumns()"
                     ng-model="schema[f.field].shown"
                     knob-label="VISIBLE"
                     on-label="VISIBLE"

@@ -284,6 +284,10 @@ header nav #voxar a:hover{
 	background: url("../img/filter_visible_arrow.png") no-repeat 0px 4px;
 }
 
+.filter-header h2 a.filter-simple span.filter-name{
+	background: none;
+}
+
 .filter .filter-header .toggle-switch{
 	position: absolute;
 	right: 20px;
@@ -327,7 +331,7 @@ header nav #voxar a:hover{
   color: #6ad1df;
 }
 
-.filter ::-webkit-input-placeholder, .filter :-moz-placeholder,.filter ::-moz-placeholder,.filter :-ms-input-placeholder  {
+.filter ::-webkit-input-placeholder, .filter :-moz-placeholder,.filter ::-moz-placeholder,.filter :-ms-input-placeholder, .filter ::-ms-input-placeholder {
    color: #a3a3a3;
 }
 
