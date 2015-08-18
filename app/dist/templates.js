@@ -100,7 +100,10 @@ angular.module('gesturesApp.templates', []).run(['$templateCache', function($tem
     "\n" +
     "	<thead>\n" +
     "		<tr>\n" +
-    "			<td ng-repeat=\"column in schema\" ng-if=\"column.shown\">\n" +
+    "			<td ng-repeat=\"column in schema\" ng-if=\"column.title\">\n" +
+    "        		<strong>{{ column.name | capitalize }}</strong>\n" +
+    "    		</td>\n" +
+    "			<td ng-repeat=\"column in schema\" ng-if=\"column.shown && !column.title\">\n" +
     "				<strong>{{ column.name | capitalize }}</strong>\n" +
     "			</td>\n" +
     "		</tr>\n" +
@@ -109,7 +112,11 @@ angular.module('gesturesApp.templates', []).run(['$templateCache', function($tem
     "	<tbody>\n" +
     "		<tr ng-repeat=\"gesture in pageGestures\">\n" +
     "\n" +
-    "			<td ng-repeat=\"(field, value) in gesture\" ng-if=\"schema[field].shown\">\n" +
+    "			<td ng-repeat=\"(field, value) in gesture\" ng-if=\"schema[field].title\">\n" +
+    "        		<strong>{{ value | capitalize }}</strong>\n" +
+    "    		</td>\n" +
+    "\n" +
+    "			<td ng-repeat=\"(field, value) in gesture\" ng-if=\"schema[field].shown && !schema[field].title\">\n" +
     "				{{ value }}\n" +
     "			</td>\n" +
     "			\n" +

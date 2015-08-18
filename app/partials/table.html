@@ -2,7 +2,10 @@
 
 	<thead>
 		<tr>
-			<td ng-repeat="column in schema" ng-if="column.shown">
+			<td ng-repeat="column in schema" ng-if="column.title">
+        		<strong>{{ column.name | capitalize }}</strong>
+    		</td>
+			<td ng-repeat="column in schema" ng-if="column.shown && !column.title">
 				<strong>{{ column.name | capitalize }}</strong>
 			</td>
 		</tr>
@@ -11,7 +14,11 @@
 	<tbody>
 		<tr ng-repeat="gesture in pageGestures">
 
-			<td ng-repeat="(field, value) in gesture" ng-if="schema[field].shown">
+			<td ng-repeat="(field, value) in gesture" ng-if="schema[field].title">
+        		<strong>{{ value | capitalize }}</strong>
+    		</td>
+
+			<td ng-repeat="(field, value) in gesture" ng-if="schema[field].shown && !schema[field].title">
 				{{ value }}
 			</td>
 			
