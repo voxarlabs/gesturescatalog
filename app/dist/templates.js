@@ -45,8 +45,6 @@ angular.module('gesturesApp.templates', []).run(['$templateCache', function($tem
     "\n" +
     "    </div>\n" +
     "\n" +
-    "    <a class=\"result-single-detail\" href=\"\" ng-click=\"showDetails(gesture.rowNumber)\">CLICK TO VIEW DETAILS</a>\n" +
-    "\n" +
     "  </div>\n" +
     "</div>\n" +
     "</div>\n" +
