@@ -30,7 +30,7 @@ angular.module('gesturesApp.templates', []).run(['$templateCache', function($tem
     "        <youtube-thumb\n" +
     "          video-id=\"value\"\n" +
     "          player-width=\"230\"\n" +
-    "          player-height=\"200\">\n" +
+    "          player-height=\"150\">\n" +
     "      </youtube-thumb>\n" +
     "\n" +
     "    </div>\n" +
