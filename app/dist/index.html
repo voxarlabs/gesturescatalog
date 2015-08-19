@@ -95,10 +95,10 @@
 
         </div>
 
-        <div id="result-data" class="col-md-9">
+        <div id="result-data" class="col-md-9 hidden-xs hidden-sm">
           <h1 class="pull-left"><strong>{{ filteredGestures.length }}</strong> gestures found</h1>
 
-          <a id="add-scene" class="btn pull-right" href="#">Add a scene</a>
+          <a class="btn add-scene pull-right" href="#">Add a scene</a>
         </div>
       </div> <!-- End Content -->
 
@@ -168,6 +168,12 @@
         </div> <!-- End Sidebar -->
 
         <div id="results" ng-class="{'col-md-9': showSidebar, 'col-md-12': !showSidebar}">
+
+          <div id="result-data-small" class="hidden-md hidden-lg">
+            <h1 class="pull-left"><strong>{{ filteredGestures.length }}</strong> gestures found</h1>
+
+            <a class="btn add-scene pull-right" href="#">Add a scene</a>
+          </div>
 
           <div id="results-utils">
 
