@@ -1,3 +1,6 @@
+<div class="alert alert-danger" ng-if="pageGestures.length == 0">
+  <strong>Sorry, no gestures found for the current filters.</strong>
+</div>
 <div masonry preserve-order reload-on-resize>
 <div class="masonry-brick result-single" 
 	ng-repeat="gesture in pageGestures">

@@ -16,6 +16,9 @@ angular.module('gesturesApp.templates', []).run(['$templateCache', function($tem
     "</div>\n" +
     "");
   $templateCache.put("partials/cards.html",
+    "<div class=\"alert alert-danger\" ng-if=\"pageGestures.length == 0\">\n" +
+    "  <strong>Sorry, no gestures found for the current filters.</strong>\n" +
+    "</div>\n" +
     "<div masonry preserve-order reload-on-resize>\n" +
     "<div class=\"masonry-brick result-single\" \n" +
     "	ng-repeat=\"gesture in pageGestures\">\n" +
@@ -96,7 +99,11 @@ angular.module('gesturesApp.templates', []).run(['$templateCache', function($tem
     "    <button class=\"btn btn-warning\" ng-click=\"$dismiss()\">Close</button>\n" +
     "</div>");
   $templateCache.put("partials/table.html",
-    "<table class=\"table table-bordered table-hover table-striped\">\n" +
+    "<div class=\"alert alert-danger\" ng-if=\"pageGestures.length == 0\">\n" +
+    "  <strong>Sorry, no gestures found for the current filters.</strong>\n" +
+    "</div>\n" +
+    "\n" +
+    "<table class=\"table table-bordered table-hover table-striped\"  ng-if=\"pageGestures.length > 0\">\n" +
     "\n" +
     "	<thead>\n" +
     "		<tr>\n" +

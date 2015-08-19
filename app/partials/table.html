@@ -1,4 +1,8 @@
-<table class="table table-bordered table-hover table-striped">
+<div class="alert alert-danger" ng-if="pageGestures.length == 0">
+  <strong>Sorry, no gestures found for the current filters.</strong>
+</div>
+
+<table class="table table-bordered table-hover table-striped"  ng-if="pageGestures.length > 0">
 
 	<thead>
 		<tr>
