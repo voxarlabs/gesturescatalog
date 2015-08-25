@@ -43,7 +43,7 @@ gesturesApp.directive("youtubeThumb", function($compile){
 			playerWidth: "=",
 			playerHeight: "="
 		},
-		template: '<div style="position:relative; overflow: hidden;  width: {{ playerWidth }}px; height: {{ playerHeight }}px">' +
+		template: '<div style="position:relative; overflow: hidden;  width: {{ playerWidth }}; height: {{ playerHeight }}">' +
 						'<img style="transform: scale(1.7); width: 100%; height: 100%;" src="http://i.ytimg.com/vi/{{ videoId }}/hqdefault.jpg" class="thumb">' +
 						'<a href="" style="display:block; width: 50px; opacity: 0.7; height: 50px; background: url(img/play.png) no-repeat; background-size: cover; position: absolute; top: 50%; margin-top: -25px; left: 50%; margin-left: -25px"></a>' +
 					'</div>',
@@ -52,8 +52,8 @@ gesturesApp.directive("youtubeThumb", function($compile){
   				var html = '<iframe id="ytplayer" type="text/html"' +
   							'width="' + scope.playerWidth +'" ' +
   				 			'height="' + scope.playerHeight +'" ' +
-  				 			'src="http://www.youtube.com/embed/' + scope.videoId + '?autoplay=1" ' +
-  				 			'frameborder="0"/>';
+  				 			'src="http://www.youtube.com/embed/' + scope.videoId + '?autoplay=1&autohide=1&showinfo=0" ' +
+  				 			'frameborder="0" allowfullscreen=""/>';
 	            elem.replaceWith(html);
 			});
 		}

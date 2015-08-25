@@ -2,6 +2,7 @@
 <html lang="en" ng-app="gesturesApp">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Gestures Catalog</title>
 
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
@@ -117,7 +118,8 @@
                     <span class="filter-name">{{ f.name | uppercase }}</span>
                   </a>
                   <toggle-switch tooltip="Click to toggle the visibility of this property on cards/table"
-                    ng-model="schema[f.field].shown"
+                    ng-if="!f.title"
+                    ng-model="f.shown"
                     knob-label="VISIBLE"
                     on-label="VISIBLE"
                     off-label="HIDDEN"><toggle-switch>
@@ -176,47 +178,48 @@
           </div>
 
           <div id="results-utils">
-
-            <div class="dropdown">
-              Sorted by
-              
-              <a href="#" data-toggle="dropdown">
-                <strong>{{ sorting.name }}</strong>
-                <span class="caret"></span>
-              </a>
-
-              <ul class="dropdown-menu">
-
-                <li ng-repeat="f in schemaList | filter: {sortable:true}">
-                  <a ng-click="doSort(f['field'])">{{ f.name }}</a>
-                </li>
+            <div id="results-sorting">
+              <div class="dropdown">
+                Sorted by
                 
-              </ul>
-            </div>
+                <a href="#" data-toggle="dropdown">
+                  <strong>{{ sorting.name }}</strong>
+                  <span class="caret"></span>
+                </a>
 
-            <div class="dropdown" style="margin-left: 10px;">
-              in
-              
-              <a href="#" data-toggle="dropdown">
-                <strong ng-if="sortingReverse">Descending</strong>
-                <strong ng-if="!sortingReverse">Ascending</strong>
-                <span class="caret"></span>
-              </a>
+                <ul class="dropdown-menu">
 
-              order
+                  <li ng-repeat="f in schemaList | filter: {sortable:true}">
+                    <a ng-click="doSort(f['field'])">{{ f.name }}</a>
+                  </li>
+                  
+                </ul>
+              </div>
 
-              <ul class="dropdown-menu">
-
-                <li>
-                  <a ng-click="setSortReverse(false)">Ascending</a>
-                </li>
-                <li>
-                  <a ng-click="setSortReverse(true)">Descending</a>
-                </li>
+              <div class="dropdown" style="margin-left: 10px;">
+                in
                 
-              </ul>
+                <a href="#" data-toggle="dropdown">
+                  <strong ng-if="sortingReverse">Descending</strong>
+                  <strong ng-if="!sortingReverse">Ascending</strong>
+                  <span class="caret"></span>
+                </a>
 
+                order
 
+                <ul class="dropdown-menu">
+
+                  <li>
+                    <a ng-click="setSortReverse(false)">Ascending</a>
+                  </li>
+                  <li>
+                    <a ng-click="setSortReverse(true)">Descending</a>
+                  </li>
+                  
+                </ul>
+              </div>
+
+              <br style="clearfix" />
             </div>
 
             <div id="results-display">

@@ -1,0 +1,40 @@
+@media (max-width: 767px) {
+	#logo img {
+		position: relative;
+		left: 50%;
+		margin-left: -138px;
+	}
+
+	header #logo{
+		margin-bottom: 10px;
+	}
+
+	header nav{
+		margin-top: 0px;
+		width: 100%;
+		text-align: center;
+	}
+
+	header nav{
+		display: inline;
+	}
+
+	header nav a{
+		padding: 10px 5px;
+	}
+
+	#result-data-small h1{
+		font-size: 20px;
+		margin-top: 18px;
+	}
+
+	#results-display{
+		float: none;
+		top: 0px;
+		margin: 10px 0px;
+	}
+
+	#results-sorting{
+		display: block;
+	}
+}
