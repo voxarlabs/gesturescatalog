@@ -293,11 +293,15 @@
 
             <div ui-view="results"></div>
 
-            <pagination
+            <pagination class="hidden-xs"
               max-size="15"
               ng-model="currentPage"
               items-per-page="itemsPerPage"
               total-items="filteredGestures.length"></pagination>
+
+             <pager class="visible-xs" total-items="filteredGestures.length" ng-model="currentPage"></pager>
+
+             <div class="clearfix"></div>
 
           </div>
 

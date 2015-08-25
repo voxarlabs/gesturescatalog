@@ -2,24 +2,29 @@ angular.module('gesturesApp.templates', []).run(['$templateCache', function($tem
   $templateCache.put("partials/about.html",
     "<div class=\"modal-header\">\n" +
     "    <button type=\"button\" class=\"close\" data-dismiss=\"modal\"><span aria-hidden=\"true\">&times;</span></button>\n" +
-    "    <h4 class=\"modal-title\" id=\"myModalLabel\">About this page</h4>\n" +
+    "    <h4 class=\"modal-title\" id=\"myModalLabel\">Sci-Fi Gestures Catalog</h4>\n" +
     "</div>\n" +
     "\n" +
     "<div class=\"modal-body\">\n" +
-    "    Lorem ipsum dolot sitamet. <br />\n" +
+    "    <h3>Understanding the future of gestural interaction</h3>\n" +
     "\n" +
-    "    Lorem ipsum.\n" +
+    "    <p>In Science Fiction (Sci-Fi) movies, filmmakers try to anticipate trends and new forms of interaction. Metaphors are created allowing their characters to interact with futuristic devices and environments. These devices and metaphors should be target of research considering they have proven to be useful before. Moreover, the impact of the new interfaces on the audience may indicate their expectations regarding future gesture interactions. Thus, the first goal of this work is to collect and expose a compilation of gestural interactions in Sci-Fi movies, providing a catalog to researchers as resource to future discussions. The second goal is to classify the collected data according to a series of criteria. The catalog is also open to new content contribution, and fellow researchers are invited to provide additional entries of hand gesture scenes from any Sci-Fi title as well as suggestions about new classification criteria and amendments on the already provided content.</p>\n" +
+    "\n" +
+    "	<p>Enjoy it.</p>\n" +
+    "    \n" +
     "</div>\n" +
+    "\n" +
+    "\n" +
     "\n" +
     "<div class=\"modal-footer\">\n" +
     "    <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n" +
     "</div>\n" +
-    "");
+    "	");
   $templateCache.put("partials/cards.html",
     "<div class=\"alert alert-danger\" ng-if=\"pageGestures.length == 0\">\n" +
     "  <strong>Sorry, no gestures found for the current filters.</strong>\n" +
     "</div>\n" +
-    "<div masonry preserve-order reload-on-resize>\n" +
+    "<div id=\"masonry-container\" masonry preserve-order reload-on-resize masonry-options=\"{isFitWidth: true}\">\n" +
     "<div class=\"masonry-brick result-single\" \n" +
     "	ng-repeat=\"gesture in pageGestures\">\n" +
     "\n" +
