@@ -36,5 +36,6 @@
 
 	#results-sorting{
 		display: block;
+		float: none;
 	}
 }
