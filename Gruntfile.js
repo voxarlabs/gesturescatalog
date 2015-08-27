@@ -11,38 +11,45 @@ module.exports = function(grunt) {
       },
       main: {
         src: ['app/partials/*.html'],
-        dest: 'app/dist/templates.js'
+        dest: 'dist/templates.js'
       },
     },
     watch: {
-      files: ['app/partials/**/*', 'app/js/**/*', 'app/css/**/*', 'app/index.html'],
-      tasks: ['build'],
+       files: ['app/partials/**/*', 'app/js/**/*', 'app/css/**/*', 'app/index.html'],
+      tasks: ['build']
     },
     useminPrepare: {
-      html: 'app/dist/index.html',
+      html: 'dist/index.html',
       options: {
-        dest: 'app/dist'
+        dest: 'dist',
+        flow: {
+          steps: {
+              js: ['concat'],
+              css: ['concat']
+          },
+          post: {}
+        }
       }
     },
     usemin: {
-      html: 'app/dist/index.html'
+      html: 'dist/index.html'
     },
     copy: {
       index: {
         src: 'app/index.html',
-        dest: 'app/dist/index.html'
+        dest: 'dist/index.html'
       },
       images: {
         expand: true,
         cwd: 'app/img/',
         src: ['**'],
-        dest: 'app/dist/img/'
+        dest: 'dist/img/'
       },
       fonts: {
         expand: true,
         cwd: 'app/bower_components/bootstrap/fonts/',
         src: ['**'],
-        dest: 'app/dist/fonts/'
+        dest: 'dist/fonts/'
       }
     },
     uglify: {
@@ -68,8 +75,8 @@ module.exports = function(grunt) {
     'copy:fonts',
     'useminPrepare',
     'concat',
-    'uglify',
-    'cssmin',
+   // 'uglify',
+   // 'cssmin',
     'usemin'
   ]);
 
