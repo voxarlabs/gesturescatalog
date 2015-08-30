@@ -38,4 +38,45 @@
 		display: block;
 		float: none;
 	}
+
+	.result-single{
+		width: 100%;
+		margin-bottom: 10px;
+	}
+
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+
+	.result-single{
+		width: 47%;
+		margin: 1.5%;
+	}
+	.sidebar-visible .result-single{
+		width: 100%;
+		margin-bottom: 10px;
+	}
+
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+	.result-single{
+		width: 24%;
+		margin: 0.5%;
+	}
+	.sidebar-visible .result-single{
+		width: 32%;
+		margin: 0.65%;
+	}
+
+}
+@media (min-width: 1200px) {
+	.result-single{
+		width: 19%;
+		margin: 0.5%;
+	}
+	.sidebar-visible .result-single{
+		width: 23.5%;
+		margin: 0.75%;
+	}
 }

@@ -248,17 +248,18 @@ header nav #voxar a:hover{
 
 
 .add-scene{
-	background: #FB9F2B;
+	background: #6AD1DF;
     color: #fff;
     box-shadow: 0px 2px rgba(0,0,0,0.2);
     border-radius: 2px;
     font: 600 14px "Open Sans";
     margin: 14px 8px;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease;
 }
 
 .add-scene:hover{
-	background: #EA8D17;
+	background: #5EB5C0;
+	color: #fff;
 }
 
 /* Content */
@@ -269,15 +270,11 @@ header nav #voxar a:hover{
 }
 
 .filter-header{
-	height: 58px;
-}
-
-.filter.visible .filter-header{
-	background: #6ad1df;
+	height: 48px;
 }
 
 .filter-header h2{
-	font: 600 14px "Open Sans";
+	font: 600 12px "Open Sans";
 	float: left;
 	width: 100%;
 	margin: 0px;
@@ -288,7 +285,7 @@ header nav #voxar a:hover{
 .filter-header h2 a{
 	display: block;	
 	width: 100%;
-	height: 58px;
+	height: 48px;
 	color: #eeeeee;
 }
 
@@ -297,16 +294,17 @@ header nav #voxar a:hover{
 }
 
 .filter-header h2 a span.filter-name{
-	background: url("../img/filter_hidden_arrow.png") no-repeat 4px 4px;
+	background: url("../img/filter_hidden_arrow.png") no-repeat 0px 1px;
 	display: inline-block;
-	margin: 20px;
+	margin: 17px 20px 0px;
 	padding-left: 22px;
 	text-shadow: 1px 1px rgba(0,0,0,0.2);
+	font-weight: 700;
 }
 
 .filter.visible .filter-header h2 a span.filter-name{
 	font-weight: 700;
-	background: url("../img/filter_visible_arrow.png") no-repeat 0px 4px;
+	background: url("../img/filter_visible_arrow.png") no-repeat 0px 1px;
 }
 
 .filter-header h2 a.filter-simple span.filter-name{
@@ -316,20 +314,18 @@ header nav #voxar a:hover{
 .filter .filter-header .toggle-switch{
 	position: absolute;
 	right: 20px;
-	top: 19px;
+	top: 14px;
 }
 
 .filter .filter-content{
 	display: none;
 	animation: show 300ms ease-in-out both;
-	padding: 30px;
+	padding: 0px 20px 23px 17px;
+	border-bottom: solid 1px rgba(0,0,0,0.1);
 }
 
 .filter.visible .filter-content{
 	display: block;
-	border-left: solid 6px #6ad1df;
-	border-bottom: solid 3px #465052;
-	background: #495355;
 }
 
 .filter input[type="text"], .ui-select-multiple.ui-select-bootstrap input.ui-select-search{
@@ -343,31 +339,48 @@ header nav #voxar a:hover{
   border-radius: 2px;
   padding: 10px;
   border: none;
-  border-bottom: solid 2px #e9e9e9;
+  border-bottom: solid 2px #e0e0e0;
   transition: border 0.3s;
-  background: #747c7e !important;
-  color: #ebebeb;
-  height: auto;
+  background: #f6f6f6 !important;
+  color: #3d3d3d;
+  height: auto; 
 }
 
 .filter input[type="text"]:focus, .ui-select-search:focus {
   outline: none;
-  border-bottom: solid 2px #6ad1df;
-  color: #6ad1df;
+  border-bottom: solid 2px #6AD1DF;
+  color: #3d3d3d;
 }
 
-.filter ::-webkit-input-placeholder, .filter :-moz-placeholder,.filter ::-moz-placeholder,.filter :-ms-input-placeholder, .filter ::-ms-input-placeholder {
-   color: #a3a3a3;
+.filter ::-webkit-input-placeholder {
+   color: #b8b8b8;
+}
+
+.filter  :-moz-placeholder {
+   color: #b8b8b8;
+}
+
+.filter  ::-moz-placeholder {
+   color: #b8b8b8;
+}
+
+.filter  :-ms-input-placeholder {  
+   color: #b8b8b8;
 }
 
 /* Filter checkboxes */
 .checkbox-list{
 	list-style-type: none;
-	padding: 0px;
+	padding: 5px 10px 0px 10px;
+	margin-bottom: 0px;
 }
 
 .checkbox-list li{
 	margin-bottom: 10px;
+}
+
+.checkbox-list li:last-child{
+	margin-bottom: 0px;
 }
 
 .filter input[type=checkbox]{
@@ -467,8 +480,7 @@ header nav #voxar a:hover{
 
 .result-single{
 	position: relative;
-	margin: 8px;
-	width: 300px;
+	width: 30%;
 	background: #fff;
 	border-radius: 4px;
 	box-shadow: 0px 2px 0px rgba(0,0,0,0.1);

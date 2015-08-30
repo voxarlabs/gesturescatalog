@@ -23,6 +23,10 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 
 		$scope.itemsPerPage = 10;
 
+		$scope.showSidebar = true;
+
+		$scope.currentBreakpoint = 'lg';
+
 		$loading.start('data');
 
 		gestures.all(function(data, tabletop){
@@ -128,9 +132,29 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 		    });
 		}
 
-		$scope.$watch("resultsWidth", function(){
-			$scope.itemsPerPage = Math.floor($scope.resultsWidth/270)*3;
-			console.log('Organizing ' + $scope.resultsWidth + ' with ' + $scope.itemsPerPage + " items per page");
+		$scope.updateCardDisplay = function updateCardDisplay(){
+			if($scope.currentBreakpoint == 'lg'){
+				if($scope.showSidebar){
+					$scope.singleResultWidth = $scope.resultsWidth*0.235;
+				}else{
+					$scope.singleResultWidth = $scope.resultsWidth*0.19;
+				}
+			}else if($scope.currentBreakpoint == 'md'){
+				$scope.singleResultWidth = $scope.resultsWidth*0.24;
+			}else if($scope.currentBreakpoint == 'sm'){
+				$scope.singleResultWidth = $scope.resultsWidth*0.47;
+			}else if($scope.currentBreakpoint == 'xs'){
+				$scope.singleResultWidth = $scope.resultsWidth;
+			}
+			$scope.itemsPerPage = Math.floor($scope.resultsWidth/$scope.singleResultWidth)*3;
+			console.log('Organizing  (' + $scope.showSidebar + ')' + $scope.resultsWidth + '/' + $scope.singleResultWidth +' with ' + $scope.itemsPerPage + " items per page");
+		}
+
+		$scope.$watch("resultsWidth", $scope.updateCardDisplay);
+
+		$scope.$on("windowResize", function(event, current, previous){
+			$scope.currentBreakpoint = current;
+			$scope.updateCardDisplay();
 		});
 
 

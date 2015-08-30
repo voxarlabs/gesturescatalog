@@ -58,4 +58,44 @@ gesturesApp.directive("youtubeThumb", function($compile){
 			});
 		}
 	}
-})
+});
+
+gesturesApp.directive('bsBreakpoint', function($window, $rootScope, $timeout) {
+    return {
+        controller: function() {
+            var getBreakpoint = function() {
+                var windowWidth = $window.innerWidth;
+
+                if(windowWidth < 768) {
+                    return 'xs';
+                } else if (windowWidth >= 768 && windowWidth < 992) {
+                    return 'sm';
+                } else if (windowWidth >= 992 && windowWidth < 1200) {
+                    return 'md';
+                } else if (windowWidth >= 1200) {
+                    return 'lg';
+                }   
+            };  
+
+            var currentBreakpoint = getBreakpoint();
+            var previousBreakpoint = null;
+
+            // Broadcast inital value, so other directives can get themselves setup
+            $timeout(function() {
+                $rootScope.$broadcast('windowResize', currentBreakpoint, previousBreakpoint);
+            }); 
+
+            angular.element($window).bind('resize', function() {
+                var newBreakpoint = getBreakpoint();
+
+                if (newBreakpoint != currentBreakpoint) {
+                    previousBreakpoint = currentBreakpoint;
+                    currentBreakpoint = newBreakpoint;
+                }   
+
+                $rootScope.$broadcast('windowResize', currentBreakpoint, previousBreakpoint);
+            }); 
+        }
+    };
+});
+

@@ -45967,44 +45967,40 @@ function makeArray( obj ) {
 });
 
 /*!
- * angular-masonry <%= pkg.version %>
+ * angular-masonry 0.11.0
  * Pascal Hartig, weluse GmbH, http://weluse.de/
  * License: MIT
  */
 (function () {
   'use strict';
-
-  angular.module('wu.masonry', [])
-    .controller('MasonryCtrl', function controller($scope, $element, $timeout) {
+  angular.module('wu.masonry', []).controller('MasonryCtrl', [
+    '$scope',
+    '$element',
+    '$timeout',
+    function controller($scope, $element, $timeout) {
       var bricks = {};
       var schedule = [];
       var destroyed = false;
       var self = this;
       var timeout = null;
-
       this.preserveOrder = false;
       this.loadImages = true;
-
       this.scheduleMasonryOnce = function scheduleMasonryOnce() {
         var args = arguments;
         var found = schedule.filter(function filterFn(item) {
-          return item[0] === args[0];
-        }).length > 0;
-
+            return item[0] === args[0];
+          }).length > 0;
         if (!found) {
           this.scheduleMasonry.apply(null, arguments);
         }
       };
-
       // Make sure it's only executed once within a reasonable time-frame in
       // case multiple elements are removed or added at once.
       this.scheduleMasonry = function scheduleMasonry() {
         if (timeout) {
           $timeout.cancel(timeout);
         }
-
         schedule.push([].slice.call(arguments));
-
         timeout = $timeout(function runMasonry() {
           if (destroyed) {
             return;
@@ -46015,16 +46011,13 @@ function makeArray( obj ) {
           schedule = [];
         }, 30);
       };
-
       function defaultLoaded($element) {
         $element.addClass('loaded');
       }
-
       this.appendBrick = function appendBrick(element, id) {
         if (destroyed) {
           return;
         }
-
         function _append() {
           if (Object.keys(bricks).length === 0) {
             $element.masonry('resize');
@@ -46036,7 +46029,6 @@ function makeArray( obj ) {
             $element.masonry('appended', element, true);
           }
         }
-
         function _layout() {
           // I wanted to make this dynamic but ran into huuuge memory leaks
           // that I couldn't fix. If you know how to dynamically add a
@@ -46044,8 +46036,7 @@ function makeArray( obj ) {
           // please submit a pull request!
           self.scheduleMasonryOnce('layout');
         }
-
-        if (!self.loadImages){
+        if (!self.loadImages) {
           _append();
           _layout();
         } else if (self.preserveOrder) {
@@ -46058,116 +46049,93 @@ function makeArray( obj ) {
           });
         }
       };
-
       this.removeBrick = function removeBrick(id, element) {
         if (destroyed) {
           return;
         }
-
         delete bricks[id];
         $element.masonry('remove', element);
         this.scheduleMasonryOnce('layout');
       };
-
       this.destroy = function destroy() {
         destroyed = true;
-
         if ($element.data('masonry')) {
           // Gently uninitialize if still present
           $element.masonry('destroy');
         }
         $scope.$emit('masonry.destroyed');
-
-        bricks = {};
+        bricks = [];
       };
-
       this.reload = function reload() {
         $element.masonry();
         $scope.$emit('masonry.reloaded');
       };
-
-
-    }).directive('masonry', function masonryDirective() {
-      return {
-        restrict: 'AE',
-        controller: 'MasonryCtrl',
-        link: {
-          pre: function preLink(scope, element, attrs, ctrl) {
-            var attrOptions = scope.$eval(attrs.masonry || attrs.masonryOptions);
-            var options = angular.extend({
+    }
+  ]).directive('masonry', function masonryDirective() {
+    return {
+      restrict: 'AE',
+      controller: 'MasonryCtrl',
+      link: {
+        pre: function preLink(scope, element, attrs, ctrl) {
+          var attrOptions = scope.$eval(attrs.masonry || attrs.masonryOptions);
+          var options = angular.extend({
               itemSelector: attrs.itemSelector || '.masonry-brick',
               columnWidth: parseInt(attrs.columnWidth, 10) || attrs.columnWidth
             }, attrOptions || {});
-            element.masonry(options);
-            scope.masonryContainer = element[0];
-            var loadImages = scope.$eval(attrs.loadImages);
-            ctrl.loadImages = loadImages !== false;
-            var preserveOrder = scope.$eval(attrs.preserveOrder);
-            ctrl.preserveOrder = (preserveOrder !== false && attrs.preserveOrder !== undefined); 
-            var reloadOnShow = scope.$eval(attrs.reloadOnShow);
-            if (reloadOnShow !== false && attrs.reloadOnShow !== undefined) {
-              scope.$watch(function () {
-                return element.prop('offsetParent');
-              }, function (isVisible, wasVisible) {
-                if (isVisible && !wasVisible) {
-                  ctrl.reload();
-                }
-              });
-            }
-            var reloadOnResize = scope.$eval(attrs.reloadOnResize);
-            if (reloadOnResize !== false && attrs.reloadOnResize !== undefined) {
-              scope.$watch('masonryContainer.offsetWidth', function (newWidth, oldWidth) {
-                if (newWidth != oldWidth) {
-                  ctrl.reload();
-                }
-              });
-            }
-
-            scope.$emit('masonry.created', element);
-            scope.$on('$destroy', ctrl.destroy);
+          element.masonry(options);
+          var loadImages = scope.$eval(attrs.loadImages);
+          ctrl.loadImages = loadImages !== false;
+          var preserveOrder = scope.$eval(attrs.preserveOrder);
+          ctrl.preserveOrder = preserveOrder !== false && attrs.preserveOrder !== undefined;
+          var reloadOnShow = scope.$eval(attrs.reloadOnShow);
+          if (reloadOnShow !== false && attrs.reloadOnShow !== undefined) {
+            scope.$watch(function () {
+              return element.prop('offsetParent');
+            }, function (isVisible, wasVisible) {
+              if (isVisible && !wasVisible) {
+                ctrl.reload();
+              }
+            });
           }
+          scope.$emit('masonry.created', element);
+          scope.$on('$destroy', ctrl.destroy);
         }
-      };
-    }).directive('masonryBrick', function masonryBrickDirective() {
-      return {
-        restrict: 'AC',
-        require: '^masonry',
-        scope: true,
-        link: {
-          pre: function preLink(scope, element, attrs, ctrl) {
-            var id = scope.$id, index;
-
-            ctrl.appendBrick(element, id);
-            element.on('$destroy', function () {
-              ctrl.removeBrick(id, element);
-            });
-
-            scope.$on('masonry.reload', function () {
-              ctrl.scheduleMasonryOnce('reloadItems');
-              ctrl.scheduleMasonryOnce('layout');
-            });
-
-            console.log(scope.masonryContainer);
-
-            scope.$watch(function(){
+      }
+    };
+  }).directive('masonryBrick', function masonryBrickDirective() {
+    return {
+      restrict: 'AC',
+      require: '^masonry',
+      scope: true,
+      link: {
+        pre: function preLink(scope, element, attrs, ctrl) {
+          var id = scope.$id, index;
+          ctrl.appendBrick(element, id);
+          element.on('$destroy', function () {
+            ctrl.removeBrick(id, element);
+          });
+          scope.$on('masonry.reload', function () {
+            ctrl.scheduleMasonryOnce('reloadItems');
+            ctrl.scheduleMasonryOnce('layout');
+          });
+          scope.$watch(function(){
               return element[0].offsetHeight;
             }, function(newValue, oldValue){
               if(newValue != oldValue){
                 ctrl.scheduleMasonryOnce('layout');
               }
-            })
-
-            scope.$watch('$index', function () {
-              if (index !== undefined && index !== scope.$index) {
-                ctrl.scheduleMasonryOnce('reloadItems');
-                ctrl.scheduleMasonryOnce('layout');
-              }
-              index = scope.$index;
             });
-          }
+          scope.$watch('$index', function () {
+            if (index !== undefined && index !== scope.$index) {
+              ctrl.scheduleMasonryOnce('reloadItems');
+              ctrl.scheduleMasonryOnce('layout');
+            }
+            index = scope.$index;
+          });
         }
-      };
-    });
+      }
+    };
+  });
 }());
 
 function getUniqueOptions(data, column){
@@ -46358,6 +46326,10 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 
 		$scope.itemsPerPage = 10;
 
+		$scope.showSidebar = true;
+
+		$scope.currentBreakpoint = 'lg';
+
 		$loading.start('data');
 
 		gestures.all(function(data, tabletop){
@@ -46463,9 +46435,29 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 		    });
 		}
 
-		$scope.$watch("resultsWidth", function(){
-			$scope.itemsPerPage = Math.floor($scope.resultsWidth/270)*3;
-			console.log('Organizing ' + $scope.resultsWidth + ' with ' + $scope.itemsPerPage + " items per page");
+		$scope.updateCardDisplay = function updateCardDisplay(){
+			if($scope.currentBreakpoint == 'lg'){
+				if($scope.showSidebar){
+					$scope.singleResultWidth = $scope.resultsWidth*0.235;
+				}else{
+					$scope.singleResultWidth = $scope.resultsWidth*0.19;
+				}
+			}else if($scope.currentBreakpoint == 'md'){
+				$scope.singleResultWidth = $scope.resultsWidth*0.24;
+			}else if($scope.currentBreakpoint == 'sm'){
+				$scope.singleResultWidth = $scope.resultsWidth*0.47;
+			}else if($scope.currentBreakpoint == 'xs'){
+				$scope.singleResultWidth = $scope.resultsWidth;
+			}
+			$scope.itemsPerPage = Math.floor($scope.resultsWidth/$scope.singleResultWidth)*3;
+			console.log('Organizing  (' + $scope.showSidebar + ')' + $scope.resultsWidth + '/' + $scope.singleResultWidth +' with ' + $scope.itemsPerPage + " items per page");
+		}
+
+		$scope.$watch("resultsWidth", $scope.updateCardDisplay);
+
+		$scope.$on("windowResize", function(event, current, previous){
+			$scope.currentBreakpoint = current;
+			$scope.updateCardDisplay();
 		});
 
 
@@ -46569,4 +46561,44 @@ gesturesApp.directive("youtubeThumb", function($compile){
 			});
 		}
 	}
-})
+});
+
+gesturesApp.directive('bsBreakpoint', function($window, $rootScope, $timeout) {
+    return {
+        controller: function() {
+            var getBreakpoint = function() {
+                var windowWidth = $window.innerWidth;
+
+                if(windowWidth < 768) {
+                    return 'xs';
+                } else if (windowWidth >= 768 && windowWidth < 992) {
+                    return 'sm';
+                } else if (windowWidth >= 992 && windowWidth < 1200) {
+                    return 'md';
+                } else if (windowWidth >= 1200) {
+                    return 'lg';
+                }   
+            };  
+
+            var currentBreakpoint = getBreakpoint();
+            var previousBreakpoint = null;
+
+            // Broadcast inital value, so other directives can get themselves setup
+            $timeout(function() {
+                $rootScope.$broadcast('windowResize', currentBreakpoint, previousBreakpoint);
+            }); 
+
+            angular.element($window).bind('resize', function() {
+                var newBreakpoint = getBreakpoint();
+
+                if (newBreakpoint != currentBreakpoint) {
+                    previousBreakpoint = currentBreakpoint;
+                    currentBreakpoint = newBreakpoint;
+                }   
+
+                $rootScope.$broadcast('windowResize', currentBreakpoint, previousBreakpoint);
+            }); 
+        }
+    };
+});
+

@@ -28,7 +28,7 @@
   </script>
 
 </head>
-<body ng-controller="GesturesListCtrl">
+<body ng-controller="GesturesListCtrl" bs-breakpoint>
 
   <div class="container-fluid">
 
@@ -41,9 +41,6 @@
 
       <div class="col-sm-8 col-md-offset-3 col-md-5">
         <nav>
-          <li>
-            <a ui-sref="cards">HOME</a>
-          </li>
           <li>
             <a href="#" data-toggle="modal" data-target="#about-modal">ABOUT</a>
           </li>
@@ -78,10 +75,10 @@
         }"></div>
 
       <div id="pre-content" class="row">
-        <div id="filters" class="col-md-3">
+        <div id="filters" class="col-sm-4 col-md-3 col-xl-2">
           <h1>FILTERS</h1>
 
-          <a id="hide-sidebar" href="" ng-init="showSidebar=true" ng-click="showSidebar=!showSidebar; $broadcast('masonry.reload');" tooltip="Toggle sidebar visibility">
+          <a id="hide-sidebar" href="" ng-click="showSidebar=!showSidebar; $broadcast('masonry.reload');" tooltip="Toggle sidebar visibility">
             <svg
               ng-class="{'hide-sidebar-down': showSidebar, 'hide-sidebar-up': !showSidebar}" 
               width="30px" height="30px" viewBox="0 0 70 90" xml:space="preserve">
@@ -96,16 +93,16 @@
 
         </div>
 
-        <div id="result-data" class="col-md-9 hidden-xs hidden-sm">
+        <div id="result-data" class="col-sm-8 col-md-9 col-xl-10 hidden-xs">
           <h1 class="pull-left"><strong>{{ filteredGestures.length }}</strong> gestures found</h1>
 
-          <a class="btn add-scene pull-right" href="#">Add a scene</a>
+          <a class="btn add-scene pull-right" href="https://docs.google.com/forms/d/1DqBlTkFc5RmVDhTK2LMGpvujqYZWEt61eq0hdxrXrdY/viewform">Add a scene</a>
         </div>
       </div> <!-- End Content -->
 
       <div id="content" class="row">
 
-        <div id="sidebar" class="col-md-3" ng-animate=" 'animate' " ng-show="showSidebar">
+        <div id="sidebar" class="col-sm-4 col-md-3 col-xl-2" ng-animate=" 'animate' " ng-show="showSidebar">
 
           <div class="filter" ng-class="{'visible' : f.filterable}" ng-repeat="f in schemaList | filter: {visibility:true}">
 
@@ -169,9 +166,9 @@
 
         </div> <!-- End Sidebar -->
 
-        <div id="results" ng-class="{'col-md-9': showSidebar, 'col-md-12': !showSidebar}">
+        <div id="results" ng-class="{'col-sm-8 col-md-9 col-xl-10': showSidebar, 'col-md-12 col-xl-12': !showSidebar, 'sidebar-visible': showSidebar}">
 
-          <div id="result-data-small" class="hidden-md hidden-lg">
+          <div id="result-data-small" class="hidden-sm hidden-md hidden-lg">
             <h1 class="pull-left"><strong>{{ filteredGestures.length }}</strong> gestures found</h1>
 
             <a class="btn add-scene pull-right" href="#">Add a scene</a>

@@ -24,9 +24,9 @@ angular.module('gesturesApp.templates', []).run(['$templateCache', function($tem
     "<div class=\"alert alert-danger\" ng-if=\"pageGestures.length == 0\">\n" +
     "  <strong>Sorry, no gestures found for the current filters.</strong>\n" +
     "</div>\n" +
-    "<div id=\"masonry-container\" masonry preserve-order reload-on-resize masonry-options=\"{isFitWidth: true}\">\n" +
+    "<div id=\"masonry-container\" masonry preserve-order reload-on-resize masonry-options=\"{percentPosition: true}\">\n" +
     "<div class=\"masonry-brick result-single\" \n" +
-    "	ng-repeat=\"gesture in pageGestures\">\n" +
+    "	ng-repeat=\"gesture in pageGestures\" ng-model=\"resultWidth\">\n" +
     "\n" +
     "  <div class=\"result-single-data\">\n" +
     "\n" +

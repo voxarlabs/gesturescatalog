@@ -1,9 +1,9 @@
 <div class="alert alert-danger" ng-if="pageGestures.length == 0">
   <strong>Sorry, no gestures found for the current filters.</strong>
 </div>
-<div id="masonry-container" masonry preserve-order reload-on-resize masonry-options="{isFitWidth: true}">
+<div id="masonry-container" masonry preserve-order reload-on-resize masonry-options="{percentPosition: true}">
 <div class="masonry-brick result-single" 
-	ng-repeat="gesture in pageGestures">
+	ng-repeat="gesture in pageGestures" ng-model="resultWidth">
 
   <div class="result-single-data">
 
