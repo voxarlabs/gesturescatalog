@@ -11,6 +11,24 @@ angular.module('gesturesApp.templates', []).run(['$templateCache', function($tem
     "    <p>In Science Fiction (Sci-Fi) movies, filmmakers try to anticipate trends and new forms of interaction. Metaphors are created allowing their characters to interact with futuristic devices and environments. These devices and metaphors should be target of research considering they have proven to be useful before. Moreover, the impact of the new interfaces on the audience may indicate their expectations regarding future gesture interactions. Thus, the first goal of this work is to collect and expose a compilation of gestural interactions in Sci-Fi movies, providing a catalog to researchers as resource to future discussions. The second goal is to classify the collected data according to a series of criteria. The catalog is also open to new content contribution, and fellow researchers are invited to provide additional entries of hand gesture scenes from any Sci-Fi title as well as suggestions about new classification criteria and amendments on the already provided content.</p>\n" +
     "\n" +
     "	<p>Enjoy it.</p>\n" +
+    "\n" +
+    "	<br />\n" +
+    "\n" +
+    "	<strong>Related Publications:</strong>\n" +
+    "\n" +
+    "	<p>Figueiredo, L. S., Maciel Pinheiro, M. G., Vilar Neto, E. X., & Teichrieb, V. (2015, April). An Open Catalog of Hand Gestures from Sci-Fi Movies. In Proceedings of the 33rd Annual ACM Conference Extended Abstracts on Human Factors in Computing Systems (pp. 1319-1324). ACM.</p>\n" +
+    "\n" +
+    "	<p>Figueiredo, L. S., Maciel Pinheiro, M. G., Vilar Neto, E. X., & Teichrieb, V.  (2015, September). Sci-Fi Gestures Catalog: Understanding the future of gestural interaction. In INTERACT.</p>\n" +
+    "\n" +
+    "	<br />\n" +
+    "\n" +
+    "	<strong>Contact the authors:</strong>\n" +
+    "\n" +
+    "	<p style=\"text-indent: 0px;\">Lucas S. Figueiredo (lsf@cin.ufpe.br) <br />\n" +
+    "	Mariana G. Maciel Pinheiro (mgmp@cin.ufpe.br)<br />\n" +
+    "	Edvar X. C. Vilar Neto (excvn@cin.ufpe.br)<br />\n" +
+    "	Veronica Teichrieb (vt@cin.ufpe.br)</p>\n" +
+    "\n" +
     "    \n" +
     "</div>\n" +
     "\n" +
@@ -30,7 +48,7 @@ angular.module('gesturesApp.templates', []).run(['$templateCache', function($tem
     "\n" +
     "  <div class=\"result-single-data\">\n" +
     "\n" +
-    "    <div ng-repeat=\"(field, value) in gesture\" ng-if=\"schema[field].video\">\n" +
+    "    <div ng-repeat=\"(field, value) in gesture\" ng-if=\"schema[field].video\" class=\"aspect-ratio-wrapper\">\n" +
     "\n" +
     "        <youtube-thumb\n" +
     "          video-id=\"value\"\n" +

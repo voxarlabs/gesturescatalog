@@ -7,7 +7,7 @@
 
   <div class="result-single-data">
 
-    <div ng-repeat="(field, value) in gesture" ng-if="schema[field].video">
+    <div ng-repeat="(field, value) in gesture" ng-if="schema[field].video" class="aspect-ratio-wrapper">
 
         <youtube-thumb
           video-id="value"
