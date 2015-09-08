@@ -46288,7 +46288,7 @@ gesturesServices.service('Gestures', [
 		return {
 			all: function(callback){
 				Tabletop.init({
-		          key: '1yI2LJC3sp5XNQz1Pmnt-stC73R1-AT0erWJ6iSeQZ7c',
+		          key: '13qwCqlQBfqEpu3MZuqjIBHxhSMFI5-L5aVop1nxmIgU',
 		          simpleSheet: true,
 		          debug: true,
 		          prettyColumnNames: false,

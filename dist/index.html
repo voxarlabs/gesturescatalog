@@ -199,14 +199,14 @@
                 Sorted by
                 
                 <a href="#" data-toggle="dropdown">
-                  <strong>{{ sorting.name }}</strong>
+                  <strong>{{ sorting.name | capitalize }}</strong>
                   <span class="caret"></span>
                 </a>
 
                 <ul class="dropdown-menu">
 
                   <li ng-repeat="f in schemaList | filter: {sortable:true}">
-                    <a ng-click="doSort(f['field'])">{{ f.name }}</a>
+                    <a ng-click="doSort(f['field'])">{{ f.name | capitalize }}</a>
                   </li>
                   
                 </ul>
