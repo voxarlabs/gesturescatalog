@@ -4,7 +4,6 @@ var gesturesApp = angular.module('gesturesApp', [
 	'angular.filter', 
 	'ui.select', 
 	'checklist-model', 
-	'angular.vertilize',
 	'toggle-switch',
 	'ui.router',
 	'ui.bootstrap',
