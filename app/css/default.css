@@ -540,7 +540,19 @@ header nav #voxar a:hover{
 }
 
 /* Pagination */
+
+.pagination{
+	display: block;
+	margin: 0px;
+	padding: 30px 0px;
+}
+
+.pagination > li{
+	display: inline-block;
+}
+
 .pagination > li > a{
+	float: none;
 	background: transparent;
 	margin-right: 10px;
 	border:none;
@@ -564,6 +576,7 @@ header nav #voxar a:hover{
 .pagination > li.disabled{
 	opacity: 0.3;
 }
+
 
 #results-container .pager{
 	margin-bottom: 20px;

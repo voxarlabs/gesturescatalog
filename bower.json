@@ -7,26 +7,27 @@
   "private": true,
   "dependencies": {
     "angular": "~1.4.2",
-    "bootstrap": "~3.3.5",
-    "angular-route": "~1.4.3",
-    "angular-resource": "~1.4.3",
-    "tabletop": "~1.4.2",
-    "angular-paging": "~1.0.3",
+    "angular-animate": "~1.4.3",
+    "angular-bootstrap": "~0.13.0",
+    "angular-carousel": "~0.3.12",
     "angular-filter": "~0.5.4",
-    "checklist-model": "~0.2.4",
+    "angular-loading": "~0.1.4",
+    "angular-loading-bar": "~0.8.0",
+    "angular-masonry": "git://github.com/tomersimis/angular-masonry.git#1ee0b295487ea2cac9c49232f62ae179fcb8e236",
+    "angular-microtext": "~0.0.2",
+    "angular-paging": "~1.0.3",
+    "angular-resource": "~1.4.3",
+    "angular-route": "~1.4.3",
     "angular-toggle-switch": "~1.3.0",
     "angular-ui-router": "~0.2.15",
-    "angular-bootstrap": "~0.13.0",
-    "angular-loading-bar": "~0.8.0",
-    "angular-loading": "~0.1.4",
-    "angular-carousel": "~0.3.12",
+    "angular-vertilize": "https://github.com/patrickvuarnoz/angular-vertilize.git#860c0dd22f90eebfcc392d176e8d9cb5c3ef6ee1",
     "angular-youtube-mb": "~1.0.2",
-    "angular-microtext": "~0.0.2",
-    "angular-animate": "~1.4.3",
-    "ui-select": "git://github.com/angular-ui/ui-select.git#1e1d9088271a52d8882ec5b6ebd83090b048b3bc",
-    "angular-masonry": "git://github.com/tomersimis/angular-masonry.git#1ee0b295487ea2cac9c49232f62ae179fcb8e236"
+    "bootstrap": "~3.3.5",
+    "checklist-model": "~0.2.4",
+    "tabletop": "~1.4.2",
+    "ui-select": "https://github.com/tomersimis/ui-select.git#7ee006d41445e2ceaf2cbe43cd551f37eb1b1b6f"
   },
   "resolutions": {
-    "angular": "1.4.4"
+    "angular": ">= 1.0.8"
   }
 }

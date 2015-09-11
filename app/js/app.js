@@ -15,7 +15,8 @@ var gesturesApp = angular.module('gesturesApp', [
 	'rodrigoalves.microtext',
 	'ngAnimate',
 	'wu.masonry',
-	'gesturesApp.templates'
+	'gesturesApp.templates',
+	'angular.vertilize'
 ]);
 
 gesturesApp.config(function($stateProvider, $urlRouterProvider) {

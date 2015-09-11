@@ -148,6 +148,7 @@
               <ui-select multiple ng-if="f.filter.input == 'select'" ng-change="doFilter()"
                   ng-model="criteria[f.field]" 
                   title="f.placeholder" 
+                  reset-search-input="false"
                   append-to-body="true">
                 <ui-select-match placeholder="{{ f.filter.placeholder }}">{{$item}}</ui-select-match>
                 <ui-select-choices repeat="opt in f.filter.options | filter:$select.search">
@@ -160,6 +161,7 @@
                   ng-change="doFilter()" 
                   tagging-label="" 
                   ng-model="criteria[f.field]" 
+                  reset-search-input="false"
                   title="f.placeholder"
                   append-to-body="true"
                   style="top: 5px !important;">
@@ -183,7 +185,7 @@
 
           </div> <!-- End Filter -->
 
-        </div> <!-- End Sidebar -->
+        </div> <!-- End Sidebar --> 
 
         <div id="results" ng-class="{'col-sm-8 col-md-9 col-xl-10': showSidebar, 'col-md-12 col-xl-12': !showSidebar, 'sidebar-visible': showSidebar}">
 
@@ -252,17 +254,17 @@
 
             <div ui-view="results"></div>
 
-            <pagination class="hidden-xs"
+             <div class="clearfix"></div>
+
+          </div>
+
+          <pagination class="hidden-xs"
               max-size="15"
               ng-model="currentPage"
               items-per-page="itemsPerPage"
               total-items="filteredGestures.length"></pagination>
 
-             <pager class="visible-xs" total-items="filteredGestures.length" ng-model="currentPage"></pager>
-
-             <div class="clearfix"></div>
-
-          </div>
+          <pager class="visible-xs" total-items="filteredGestures.length" ng-model="currentPage"></pager>
 
         </div>
       </div>
