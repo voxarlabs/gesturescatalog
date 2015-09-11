@@ -1,11 +1,19 @@
-function getUniqueOptions(data, column){
+function getUniqueOptions(data, column, separator){
 	var seen = {};
 	var options = []
 	for(var x in data){
-		if(!seen.hasOwnProperty(data[x][column])){
-			options.push(data[x][column]);
-			seen[data[x][column]] = true;
+		var split = [data[x][column]];
+		if(separator){
+			split = data[x][column].split(separator);
 		}
+		for(var s in split){
+			var value = split[s].trim();
+			if(!seen.hasOwnProperty(value) && value != "-"){
+				options.push(value);
+				seen[value] = true;
+			}
+		}
+		
 	}
 	return options;
 }
@@ -39,6 +47,7 @@ function parseSchema(name, str, data){
 		sortable: false,
 		title: false,
 		video: false,
+		separator: null,
 		filter: {
 			placeholder: name,
 			input: 'text-field',
@@ -48,13 +57,22 @@ function parseSchema(name, str, data){
 
 	if(!str || str.length == 0) return schema;
 
-	var split = str.split(';');
-	
+	var split = str.split(/(\;)(?=(?:[^\)]|\([^\)]*\))*$)/);
+
+	for(var i in split){ // Search for separator first
+		var s = split[i];
+		if(s.indexOf("Separator") > -1){
+			schema['separator'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")"));
+		}
+	}
+
 	for(var i in split){
 		
 		var s = split[i];
 
-		if(s.indexOf("Type") > -1){
+		if(s == ';') continue;
+
+		if(s.indexOf("Type") > -1 && s.indexOf("(") > s.indexOf("Type")){
 			schema['type'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")")).toLowerCase();
 			continue;
 		}
@@ -73,7 +91,7 @@ function parseSchema(name, str, data){
 			schema['filterable'] = true;
 			schema['filter']['input'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")"));
 			if(schema['filter']['input'] == 'select' || schema['filter']['input'] == 'checkbox' || schema['filter']['input'] == 'tag'){
-				schema['filter']['options'] = getUniqueOptions(data, name);
+				schema['filter']['options'] = getUniqueOptions(data, name, schema['separator']);
 			}
 			continue;
 		}
@@ -101,4 +119,17 @@ function parseSchema(name, str, data){
 
 	}
 	return schema;
+}
+
+function parseData(data, schema){
+	for(var s in schema){
+		var field = schema[s].field;
+		var separator = schema[s].separator;
+		if(separator){
+			for(var d in data){
+				data[d][field] = data[d][field].split(separator);
+			}
+		}
+	}
+	return data;
 }

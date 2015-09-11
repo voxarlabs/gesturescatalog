@@ -67,7 +67,7 @@ angular.module('gesturesApp.templates', []).run(['$templateCache', function($tem
     "\n" +
     "    <div ng-repeat=\"(field, value) in gesture\">\n" +
     "\n" +
-    "    	<p ng-if=\"schema[field].shown && !schema[field].title\"><strong>{{ schema[field].name | capitalize }}</strong>: {{ value }} </p>\n" +
+    "    	<p ng-if=\"schema[field].shown && !schema[field].title\"><strong>{{ schema[field].name | capitalize }}</strong>: {{ value | joinBy:', ' }} </p>\n" +
     "\n" +
     "    </div>\n" +
     "\n" +

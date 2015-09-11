@@ -46138,14 +46138,22 @@ function makeArray( obj ) {
   });
 }());
 
-function getUniqueOptions(data, column){
+function getUniqueOptions(data, column, separator){
 	var seen = {};
 	var options = []
 	for(var x in data){
-		if(!seen.hasOwnProperty(data[x][column])){
-			options.push(data[x][column]);
-			seen[data[x][column]] = true;
+		var split = [data[x][column]];
+		if(separator){
+			split = data[x][column].split(separator);
 		}
+		for(var s in split){
+			var value = split[s].trim();
+			if(!seen.hasOwnProperty(value) && value != "-"){
+				options.push(value);
+				seen[value] = true;
+			}
+		}
+		
 	}
 	return options;
 }
@@ -46179,6 +46187,7 @@ function parseSchema(name, str, data){
 		sortable: false,
 		title: false,
 		video: false,
+		separator: null,
 		filter: {
 			placeholder: name,
 			input: 'text-field',
@@ -46188,13 +46197,22 @@ function parseSchema(name, str, data){
 
 	if(!str || str.length == 0) return schema;
 
-	var split = str.split(';');
-	
+	var split = str.split(/(\;)(?=(?:[^\)]|\([^\)]*\))*$)/);
+
+	for(var i in split){ // Search for separator first
+		var s = split[i];
+		if(s.indexOf("Separator") > -1){
+			schema['separator'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")"));
+		}
+	}
+
 	for(var i in split){
 		
 		var s = split[i];
 
-		if(s.indexOf("Type") > -1){
+		if(s == ';') continue;
+
+		if(s.indexOf("Type") > -1 && s.indexOf("(") > s.indexOf("Type")){
 			schema['type'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")")).toLowerCase();
 			continue;
 		}
@@ -46213,7 +46231,7 @@ function parseSchema(name, str, data){
 			schema['filterable'] = true;
 			schema['filter']['input'] = s.substring(s.indexOf("(")+1, s.lastIndexOf(")"));
 			if(schema['filter']['input'] == 'select' || schema['filter']['input'] == 'checkbox' || schema['filter']['input'] == 'tag'){
-				schema['filter']['options'] = getUniqueOptions(data, name);
+				schema['filter']['options'] = getUniqueOptions(data, name, schema['separator']);
 			}
 			continue;
 		}
@@ -46242,13 +46260,25 @@ function parseSchema(name, str, data){
 	}
 	return schema;
 }
+
+function parseData(data, schema){
+	for(var s in schema){
+		var field = schema[s].field;
+		var separator = schema[s].separator;
+		if(separator){
+			for(var d in data){
+				data[d][field] = data[d][field].split(separator);
+			}
+		}
+	}
+	return data;
+}
 var gesturesApp = angular.module('gesturesApp', [
 	'ngRoute', 
 	'gesturesServices', 
 	'angular.filter', 
 	'ui.select', 
 	'checklist-model', 
-	'angular.vertilize',
 	'toggle-switch',
 	'ui.router',
 	'ui.bootstrap',
@@ -46343,6 +46373,8 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 
 				$scope.schemaList = toList($scope.schema);
 
+				console.log($scope.schema);
+
 				for(var i in $scope.schema){
 					if($scope.schema[i]['sortable']){
 						$scope.sorting = $scope.schema[i];
@@ -46350,7 +46382,7 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 					}
 				}
 
-				$scope.gestures = data;
+				$scope.gestures = parseData(data, $scope.schema);
 
 				$scope.filteredGestures = $scope.gestures;
 
@@ -46476,8 +46508,14 @@ gesturesApp.filter('inArray', function($filter){
     return function(list, available, field){
         if(available){
             return $filter("filter")(list, function(item){
-                return available.indexOf(item[field]) != -1;
-            })
+                if(item[field].constructor == Array){ // if its an array, then we have multiple items to search
+                    for(var i in item[field]){
+                        if(available.indexOf(item[field][i]) != -1) return true;
+                    } 
+                }else{
+                    return available.indexOf(item[field]) != -1;
+                }
+            });
         }else{
             return list;
         }
@@ -46490,16 +46528,36 @@ gesturesApp.filter('inArrayTag', function($filter){
     return function(list, available, field){
         if(available){
             return $filter("filter")(list, function(item){
-            	for(var i in available){
-            		if(item[field].indexOf(available[i]) != -1) return true;
-            	}
+
+                if(item[field].constructor == Array){
+                    for(var i in available){
+                        for(var j in item[field]){
+                            if(item[field][i].indexOf(available[i]) != -1) return true;
+                        } 
+                    }
+                }else{
+                    for(var i in available){
+                        if(item[field].indexOf(available[i]) != -1) return true;
+                    }
+                }
+            	
                 return false;
-            })
+            });
         }else{
             return list;
         }
     }
 
+});
+
+gesturesApp.filter('joinBy', function () {
+    return function (input,delimiter) {
+        if(input.constructor == Array){
+            return (input || []).join(delimiter || ',');
+        }else{
+            return input;
+        }
+    };
 });
 gesturesApp.directive("filterDrawer", function() {
     return {

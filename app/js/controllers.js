@@ -40,6 +40,8 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 
 				$scope.schemaList = toList($scope.schema);
 
+				console.log($scope.schema);
+
 				for(var i in $scope.schema){
 					if($scope.schema[i]['sortable']){
 						$scope.sorting = $scope.schema[i];
@@ -47,7 +49,7 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 					}
 				}
 
-				$scope.gestures = data;
+				$scope.gestures = parseData(data, $scope.schema);
 
 				$scope.filteredGestures = $scope.gestures;
 
