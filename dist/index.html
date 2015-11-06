@@ -115,7 +115,11 @@
         <div id="result-data" class="col-sm-8 col-md-9 col-xl-10 hidden-xs">
           <h1 class="pull-left"><strong>{{ filteredGestures.length }}</strong> gestures found</h1>
 
-          <a class="btn add-scene pull-right" href="https://docs.google.com/forms/d/1DqBlTkFc5RmVDhTK2LMGpvujqYZWEt61eq0hdxrXrdY/viewform">Add a scene</a>
+          <a class="btn add-scene pull-right" href="https://docs.google.com/forms/d/1SKxRFWQbpb-c4Z2Qz6EsVcgQ_KPP_-u_BU1Vodn0buE/viewform">Add a scene</a>
+
+          <a class="btn pull-right" id="charts-btn" ui-sref="charts" ng-hide="$state.includes('charts')">Charts</a>
+
+          <a class="btn pull-right" id="scenes-btn" ui-sref="cards" ng-show="$state.includes('charts')">Go back to Scenes</a>
         </div>
       </div> <!-- End Content -->
 
@@ -195,7 +199,7 @@
             <a class="btn add-scene pull-right" href="#">Add a scene</a>
           </div>
 
-          <div id="results-utils">
+          <div id="results-utils" ng-hide="$state.includes('charts')">
             <div id="results-sorting">
               <div class="dropdown">
                 Sorted by
@@ -240,7 +244,7 @@
               <br style="clearfix" />
             </div>
 
-            <div id="results-display">
+            <div id="results-display" >
               Displaying as
               <a tooltip="Cards" ui-sref="cards" ui-sref-active="active"><span class="glyphicon glyphicon-th"></span></a>
               <a tooltip="Table" ui-sref="table" ui-sref-active="active"><span class="glyphicon glyphicon-list"></span></a>
@@ -258,13 +262,13 @@
 
           </div>
 
-          <pagination class="hidden-xs"
+          <pagination class="hidden-xs"  ng-hide="$state.includes('charts')"
               max-size="15"
               ng-model="currentPage"
               items-per-page="itemsPerPage"
               total-items="filteredGestures.length"></pagination>
 
-          <pager class="visible-xs" total-items="filteredGestures.length" ng-model="currentPage"></pager>
+          <pager ng-hide="$state.includes('charts')" class="visible-xs" total-items="filteredGestures.length" ng-model="currentPage"></pager>
 
         </div>
       </div>

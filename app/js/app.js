@@ -16,7 +16,7 @@ var gesturesApp = angular.module('gesturesApp', [
 	'ngAnimate',
 	'wu.masonry',
 	'gesturesApp.templates',
-	'angular.vertilize'
+	'chart.js'
 ]);
 
 gesturesApp.config(function($stateProvider, $urlRouterProvider) {
@@ -34,6 +34,12 @@ gesturesApp.config(function($stateProvider, $urlRouterProvider) {
       url: "/table",
       views: {
         "results": { templateUrl: "partials/table.html" }
+      }
+    })
+    .state('charts', {
+      url: "/charts",
+      views: {
+        "results": { templateUrl: "partials/charts.html" }
       }
     })
 });

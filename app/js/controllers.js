@@ -1,5 +1,7 @@
-gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$modal', 'dwLoading',
-	function(gestures, $scope, $filter, $modal, $loading){
+gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$state', '$filter', '$modal', 'dwLoading',
+	function(gestures, $scope, $state, $filter, $modal, $loading){
+
+		$scope.$state = $state;
 
 		$scope.gestures = [];
 
@@ -29,6 +31,15 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 
 		$loading.start('data');
 
+		$scope.charts = [];
+
+		$scope.chartBuilder = {
+			'x' : 'production',
+			'y' : 'input',
+			'type' : 'bar',
+			'qty' : false
+		};
+
 		gestures.all(function(data, tabletop){
 			$scope.$apply(function(){
 
@@ -55,10 +66,54 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$filter', '$m
 
 				$scope.updateColumns();
 
+				$scope.charts[0] = generateChart('production', 'input', 'bar', false);
+
+				$scope.updateChart();
+
 				$loading.finish('data');
 
 			});
 		})
+
+		function generateChart(x, y, type, qty){
+			var chart = {
+				type: type,
+				data: [],
+				labels: $scope.schema[x]['filter']['options'].sort(),
+				series: $scope.schema[y]['filter']['options']
+			};
+
+			if(qty){
+				chart.series = ['Total']
+			}
+
+			for(var i in chart.series){
+				chart.data.push([]);
+				for(var j in chart.labels){
+					chart.data[i].push(0);
+					var pattern = {};
+					pattern[x] = chart.labels[j];
+					if(!qty)
+						pattern[y] = chart.series[i];
+					chart.data[i][j] = $filter('filter')($scope.filteredGestures, pattern).length
+				}
+			}
+
+			return chart;
+		}
+
+		$scope.updateChart = function updateChart(){
+			$scope.chartBuilder.chart = generateChart($scope.chartBuilder.x, $scope.chartBuilder.y, $scope.chartBuilder.type, $scope.chartBuilder.qty);
+			console.log($scope.chartBuilder);
+		}
+
+		$scope.addChart = function addChart(){
+			$scope.charts.push($.extend({}, $scope.chartBuilder.chart));
+		}
+
+		$scope.removeChart = function removeChart(i){
+			$scope.charts.splice(i, i+1);
+		}
 
 		$scope.doFilter = function doFilter(){
 			$scope.filteredGestures = $scope.gestures;

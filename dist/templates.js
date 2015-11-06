@@ -76,6 +76,80 @@ angular.module('gesturesApp.templates', []).run(['$templateCache', function($tem
     "</div>\n" +
     "\n" +
     "<div class=\"clearfix\"></div>");
+  $templateCache.put("partials/charts.html",
+    "<div class=\"alert alert-danger\" ng-if=\"pageGestures.length == 0\">\n" +
+    "  <strong>Sorry, no gestures found for the current filters.</strong>\n" +
+    "</div>\n" +
+    "\n" +
+    "<div class=\"chart-wrapper\" ng-repeat=\"chart in charts\">\n" +
+    "\n" +
+    "	<div class=\"chart-utils\">\n" +
+    "		<button class=\"btn btn-sm btn-danger\" ng-click=\"removeChart($index)\">Remove</button>\n" +
+    "	</div>\n" +
+    "\n" +
+    "	<div class=\"chart-holder\">\n" +
+    "\n" +
+    "	<canvas ng-if=\"chart.type == 'bar'\" class=\"chart chart-bar\" chart-data=\"chart.data\" chart-labels=\"chart.labels\" chart-legend=\"true\" chart-series=\"chart.series\"></canvas> \n" +
+    "\n" +
+    "	<canvas ng-if=\"chart.type == 'line'\" class=\"chart chart-line\" chart-data=\"chart.data\" chart-labels=\"chart.labels\" chart-legend=\"true\" chart-series=\"chart.series\"></canvas>\n" +
+    "\n" +
+    "	<canvas ng-if=\"chart.type == 'radar'\" class=\"chart chart-radar\" chart-data=\"chart.data\" chart-labels=\"chart.labels\" chart-legend=\"true\" chart-series=\"chart.series\"></canvas>\n" +
+    "	\n" +
+    "	</div>\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<div class=\"container-fluid\">\n" +
+    "	<div class=\"row\" id=\"add-chart\" class=\"chart-wrapper\">\n" +
+    "		<div class=\"col-sm-4\" style=\"padding-rigth: 10px;\">\n" +
+    "			<h3>Create chart</h3>\n" +
+    "			<form>\n" +
+    "				<p> \n" +
+    "					<label for=\"chart-type\">Chart type</label> <br/>\n" +
+    "					<select name=\"chart-type\" id=\"chart-type\" ng-model=\"chartBuilder.type\" ng-change=\"updateChart()\">\n" +
+    "						<option value=\"bar\">Bar chart</option>\n" +
+    "						<option value=\"line\">Lines chart</option>\n" +
+    "						<option value=\"radar\">Radar chart</option>\n" +
+    "						\n" +
+    "					</select>\n" +
+    "				</p>\n" +
+    "\n" +
+    "				<p> \n" +
+    "					<label for=\"chart-x\">X</label> <br/>\n" +
+    "					<select name=\"chart-x\" id=\"chart-x\" ng-model=\"chartBuilder.x\" ng-change=\"updateChart()\">\n" +
+    "						<option value=\"{{ opt.field }}\" ng-if=\"opt.shown\" ng-repeat=\"opt in schemaList\">{{ opt.name | capitalize }}</option>\n" +
+    "					</select>\n" +
+    "				</p>\n" +
+    "\n" +
+    "				<p> \n" +
+    "					<label for=\"chart-y\">Y</label> \n" +
+    "					<span>\n" +
+    "						<input type=\"checkbox\" ng-model=\"chartBuilder.qty\" ng-change=\"updateChart()\" /> Number of items\n" +
+    "					</span> <br/>\n" +
+    "					<select ng-disabled=\"chartBuilder.qty\" name=\"chart-y\" id=\"chart-y\" ng-model=\"chartBuilder.y\" ng-change=\"updateChart()\">\n" +
+    "						<option value=\"{{ opt.field }}\" ng-if=\"opt.shown\" ng-repeat=\"opt in schemaList\">{{ opt.name | capitalize }}</option>\n" +
+    "					</select>\n" +
+    "				</p>\n" +
+    "\n" +
+    "				<button style=\"margin-bottom: 30px;\" class=\"btn btn-primary\" ng-click=\"addChart()\">Add chart</button>\n" +
+    "			</form>\n" +
+    "		</div>\n" +
+    "		<div class=\"col-sm-8\">\n" +
+    "		\n" +
+    "			<canvas ng-if=\"chartBuilder.type == 'bar'\" class=\"chart chart-bar\" chart-data=\"chartBuilder.chart.data\" chart-labels=\"chartBuilder.chart.labels\" chart-legend=\"true\" chart-series=\"chartBuilder.chart.series\"></canvas> \n" +
+    "\n" +
+    "			<canvas ng-if=\"chartBuilder.type == 'line'\" class=\"chart chart-line\" chart-data=\"chartBuilder.chart.data\" chart-labels=\"chartBuilder.chart.labels\" chart-legend=\"true\" chart-series=\"chartBuilder.chart.series\"></canvas>\n" +
+    "\n" +
+    "			<canvas ng-if=\"chartBuilder.type == 'radar'\" class=\"chart chart-radar\" chart-data=\"chartBuilder.chart.data\" chart-labels=\"chartBuilder.chart.labels\" chart-legend=\"true\" chart-series=\"chartBuilder.chart.series\"></canvas>\n" +
+    "\n" +
+    "\n" +
+    "			 \n" +
+    "		</div>\n" +
+    "	</div>\n" +
+    "</div>\n" +
+    "\n" +
+    "<div class=\"clearfix\"></div>");
   $templateCache.put("partials/details.html",
     "<div class=\"modal-header\" ng-repeat=\"(field, value) in item\" ng-if=\"schema[field].title\">\n" +
     "	 <h3 class=\"modal-title\">{{ value }}</h3>\n" +
