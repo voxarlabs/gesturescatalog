@@ -81,7 +81,7 @@ angular.module('gesturesApp.templates', []).run(['$templateCache', function($tem
     "  <strong>Sorry, no gestures found for the current filters.</strong>\n" +
     "</div>\n" +
     "\n" +
-    "<div class=\"chart-wrapper\" ng-repeat=\"chart in charts\">\n" +
+    "<div class=\"chart-wrapper\" ng-repeat=\"config in charts\">\n" +
     "\n" +
     "	<div class=\"chart-utils\">\n" +
     "		<button class=\"btn btn-sm btn-danger\" ng-click=\"removeChart($index)\">Remove</button>\n" +
@@ -89,11 +89,7 @@ angular.module('gesturesApp.templates', []).run(['$templateCache', function($tem
     "\n" +
     "	<div class=\"chart-holder\">\n" +
     "\n" +
-    "	<canvas ng-if=\"chart.type == 'bar'\" class=\"chart chart-bar\" chart-data=\"chart.data\" chart-labels=\"chart.labels\" chart-legend=\"true\" chart-series=\"chart.series\"></canvas> \n" +
-    "\n" +
-    "	<canvas ng-if=\"chart.type == 'line'\" class=\"chart chart-line\" chart-data=\"chart.data\" chart-labels=\"chart.labels\" chart-legend=\"true\" chart-series=\"chart.series\"></canvas>\n" +
-    "\n" +
-    "	<canvas ng-if=\"chart.type == 'radar'\" class=\"chart chart-radar\" chart-data=\"chart.data\" chart-labels=\"chart.labels\" chart-legend=\"true\" chart-series=\"chart.series\"></canvas>\n" +
+    "	<highchart id=\"chart1\" config=\"config.chart\"></highchart>\n" +
     "	\n" +
     "	</div>\n" +
     "</div>\n" +
@@ -108,6 +104,7 @@ angular.module('gesturesApp.templates', []).run(['$templateCache', function($tem
     "				<p> \n" +
     "					<label for=\"chart-type\">Chart type</label> <br/>\n" +
     "					<select name=\"chart-type\" id=\"chart-type\" ng-model=\"chartBuilder.type\" ng-change=\"updateChart()\">\n" +
+    "						<option value=\"column\">Columns chart</option>\n" +
     "						<option value=\"bar\">Bar chart</option>\n" +
     "						<option value=\"line\">Lines chart</option>\n" +
     "						<option value=\"radar\">Radar chart</option>\n" +
@@ -118,7 +115,7 @@ angular.module('gesturesApp.templates', []).run(['$templateCache', function($tem
     "				<p> \n" +
     "					<label for=\"chart-x\">X</label> <br/>\n" +
     "					<select name=\"chart-x\" id=\"chart-x\" ng-model=\"chartBuilder.x\" ng-change=\"updateChart()\">\n" +
-    "						<option value=\"{{ opt.field }}\" ng-if=\"opt.shown\" ng-repeat=\"opt in schemaList\">{{ opt.name | capitalize }}</option>\n" +
+    "						<option value=\"{{ opt.field }}\" ng-if=\"opt.shown\" ng-repeat=\"opt in schemaList\"  ng-selected=\"chartBuilder.x === opt.field\">{{ opt.name | capitalize }}</option>\n" +
     "					</select>\n" +
     "				</p>\n" +
     "\n" +
@@ -128,22 +125,33 @@ angular.module('gesturesApp.templates', []).run(['$templateCache', function($tem
     "						<input type=\"checkbox\" ng-model=\"chartBuilder.qty\" ng-change=\"updateChart()\" /> Number of items\n" +
     "					</span> <br/>\n" +
     "					<select ng-disabled=\"chartBuilder.qty\" name=\"chart-y\" id=\"chart-y\" ng-model=\"chartBuilder.y\" ng-change=\"updateChart()\">\n" +
-    "						<option value=\"{{ opt.field }}\" ng-if=\"opt.shown\" ng-repeat=\"opt in schemaList\">{{ opt.name | capitalize }}</option>\n" +
+    "						<option value=\"{{ opt.field }}\" ng-if=\"opt.shown\" ng-repeat=\"opt in schemaList\"ng-selected=\"chartBuilder.y === opt.field\">{{ opt.name | capitalize }}</option>\n" +
     "					</select>\n" +
     "				</p>\n" +
+    "\n" +
+    "				<p> \n" +
+    "					<label for=\"chart-thresh\">Threshold</label> \n" +
+    "					<span>\n" +
+    "						<input type=\"checkbox\" ng-disabled=\"chartBuilder.qty\" ng-model=\"chartBuilder.useThreshold\" ng-change=\"updateChart()\" /> Use threshold\n" +
+    "					</span> <br/>\n" +
+    "					<input type=\"number\" ng-disabled=\"!chartBuilder.useThreshold || chartBuilder.qty\" name=\"chart-thresh\" id=\"chart-thresh\" ng-model=\"chartBuilder.threshold\" ng-change=\"updateChart()\" />\n" +
+    "				</p>\n" +
+    "\n" +
+    "				<p> \n" +
+    "					<label for=\"chart-merge\">Merge</label> \n" +
+    "					<span>\n" +
+    "						<input type=\"checkbox\" ng-disabled=\"schema[chartBuilder.x].type != 'numeric'\" ng-model=\"chartBuilder.useMerge\" ng-change=\"updateChart()\" /> Use merge\n" +
+    "					</span> <br/>\n" +
+    "					<input type=\"number\" ng-disabled=\"!chartBuilder.useMerge || schema[chartBuilder.x].type != 'numeric'\" name=\"chart-merge\" id=\"chart-merge\" ng-model=\"chartBuilder.merge\" ng-change=\"updateChart()\" min=\"0\" />\n" +
+    "				</p>\n" +
+    "\n" +
     "\n" +
     "				<button style=\"margin-bottom: 30px;\" class=\"btn btn-primary\" ng-click=\"addChart()\">Add chart</button>\n" +
     "			</form>\n" +
     "		</div>\n" +
     "		<div class=\"col-sm-8\">\n" +
     "		\n" +
-    "			<canvas ng-if=\"chartBuilder.type == 'bar'\" class=\"chart chart-bar\" chart-data=\"chartBuilder.chart.data\" chart-labels=\"chartBuilder.chart.labels\" chart-legend=\"true\" chart-series=\"chartBuilder.chart.series\"></canvas> \n" +
-    "\n" +
-    "			<canvas ng-if=\"chartBuilder.type == 'line'\" class=\"chart chart-line\" chart-data=\"chartBuilder.chart.data\" chart-labels=\"chartBuilder.chart.labels\" chart-legend=\"true\" chart-series=\"chartBuilder.chart.series\"></canvas>\n" +
-    "\n" +
-    "			<canvas ng-if=\"chartBuilder.type == 'radar'\" class=\"chart chart-radar\" chart-data=\"chartBuilder.chart.data\" chart-labels=\"chartBuilder.chart.labels\" chart-legend=\"true\" chart-series=\"chartBuilder.chart.series\"></canvas>\n" +
-    "\n" +
-    "\n" +
+    "			<highchart id=\"chart1\" config=\"chartBuilder.chart\"></highchart>\n" +
     "			 \n" +
     "		</div>\n" +
     "	</div>\n" +

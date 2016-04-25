@@ -82,8 +82,9 @@
   <script src="bower_components/imagesloaded/imagesloaded.js"></script>
 
   <script type="text/javascript" src="bower_components/angular-masonry/angular-masonry.js"></script>
-  <script src="bower_components/Chart.js/Chart.min.js"></script>
-  <script src="bower_components/angular-chart.js/dist/angular-chart.min.js"></script>
+  <script src="bower_components/highcharts/highcharts.js"></script>
+  <script src="bower_components/highcharts/modules/exporting.js"></script>
+  <script src="bower_components/highcharts-ng/dist/highcharts-ng.min.js"></script>
 
   <!-- Javascript (application) -->
   <script type="text/javascript" src="js/utils.js"></script>
@@ -326,6 +327,7 @@
           <pagination class="hidden-xs"  ng-hide="$state.includes('charts')"
               max-size="15"
               ng-model="currentPage"
+              next-text="'Next'"
               items-per-page="itemsPerPage"
               total-items="filteredGestures.length"></pagination>
 

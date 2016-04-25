@@ -2,7 +2,7 @@
   <strong>Sorry, no gestures found for the current filters.</strong>
 </div>
 
-<div class="chart-wrapper" ng-repeat="chart in charts">
+<div class="chart-wrapper" ng-repeat="config in charts">
 
 	<div class="chart-utils">
 		<button class="btn btn-sm btn-danger" ng-click="removeChart($index)">Remove</button>
@@ -10,11 +10,7 @@
 
 	<div class="chart-holder">
 
-	<canvas ng-if="chart.type == 'bar'" class="chart chart-bar" chart-data="chart.data" chart-labels="chart.labels" chart-legend="true" chart-series="chart.series"></canvas> 
-
-	<canvas ng-if="chart.type == 'line'" class="chart chart-line" chart-data="chart.data" chart-labels="chart.labels" chart-legend="true" chart-series="chart.series"></canvas>
-
-	<canvas ng-if="chart.type == 'radar'" class="chart chart-radar" chart-data="chart.data" chart-labels="chart.labels" chart-legend="true" chart-series="chart.series"></canvas>
+	<highchart id="chart1" config="config.chart"></highchart>
 	
 	</div>
 </div>
@@ -29,6 +25,7 @@
 				<p> 
 					<label for="chart-type">Chart type</label> <br/>
 					<select name="chart-type" id="chart-type" ng-model="chartBuilder.type" ng-change="updateChart()">
+						<option value="column">Columns chart</option>
 						<option value="bar">Bar chart</option>
 						<option value="line">Lines chart</option>
 						<option value="radar">Radar chart</option>
@@ -39,7 +36,7 @@
 				<p> 
 					<label for="chart-x">X</label> <br/>
 					<select name="chart-x" id="chart-x" ng-model="chartBuilder.x" ng-change="updateChart()">
-						<option value="{{ opt.field }}" ng-if="opt.shown" ng-repeat="opt in schemaList">{{ opt.name | capitalize }}</option>
+						<option value="{{ opt.field }}" ng-if="opt.shown" ng-repeat="opt in schemaList"  ng-selected="chartBuilder.x === opt.field">{{ opt.name | capitalize }}</option>
 					</select>
 				</p>
 
@@ -49,22 +46,33 @@
 						<input type="checkbox" ng-model="chartBuilder.qty" ng-change="updateChart()" /> Number of items
 					</span> <br/>
 					<select ng-disabled="chartBuilder.qty" name="chart-y" id="chart-y" ng-model="chartBuilder.y" ng-change="updateChart()">
-						<option value="{{ opt.field }}" ng-if="opt.shown" ng-repeat="opt in schemaList">{{ opt.name | capitalize }}</option>
+						<option value="{{ opt.field }}" ng-if="opt.shown" ng-repeat="opt in schemaList"ng-selected="chartBuilder.y === opt.field">{{ opt.name | capitalize }}</option>
 					</select>
 				</p>
+
+				<p> 
+					<label for="chart-thresh">Threshold</label> 
+					<span>
+						<input type="checkbox" ng-disabled="chartBuilder.qty" ng-model="chartBuilder.useThreshold" ng-change="updateChart()" /> Use threshold
+					</span> <br/>
+					<input type="number" ng-disabled="!chartBuilder.useThreshold || chartBuilder.qty" name="chart-thresh" id="chart-thresh" ng-model="chartBuilder.threshold" ng-change="updateChart()" />
+				</p>
+
+				<p> 
+					<label for="chart-merge">Merge</label> 
+					<span>
+						<input type="checkbox" ng-disabled="schema[chartBuilder.x].type != 'numeric'" ng-model="chartBuilder.useMerge" ng-change="updateChart()" /> Use merge
+					</span> <br/>
+					<input type="number" ng-disabled="!chartBuilder.useMerge || schema[chartBuilder.x].type != 'numeric'" name="chart-merge" id="chart-merge" ng-model="chartBuilder.merge" ng-change="updateChart()" min="0" />
+				</p>
+
 
 				<button style="margin-bottom: 30px;" class="btn btn-primary" ng-click="addChart()">Add chart</button>
 			</form>
 		</div>
 		<div class="col-sm-8">
 		
-			<canvas ng-if="chartBuilder.type == 'bar'" class="chart chart-bar" chart-data="chartBuilder.chart.data" chart-labels="chartBuilder.chart.labels" chart-legend="true" chart-series="chartBuilder.chart.series"></canvas> 
-
-			<canvas ng-if="chartBuilder.type == 'line'" class="chart chart-line" chart-data="chartBuilder.chart.data" chart-labels="chartBuilder.chart.labels" chart-legend="true" chart-series="chartBuilder.chart.series"></canvas>
-
-			<canvas ng-if="chartBuilder.type == 'radar'" class="chart chart-radar" chart-data="chartBuilder.chart.data" chart-labels="chartBuilder.chart.labels" chart-legend="true" chart-series="chartBuilder.chart.series"></canvas>
-
-
+			<highchart id="chart1" config="chartBuilder.chart"></highchart>
 			 
 		</div>
 	</div>

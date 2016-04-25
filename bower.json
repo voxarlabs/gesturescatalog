@@ -8,7 +8,7 @@
   "dependencies": {
     "angular": "~1.4.2",
     "angular-animate": "~1.4.3",
-    "angular-bootstrap": "~0.13.0",
+    "angular-bootstrap": "0.13.0",
     "angular-carousel": "~0.3.12",
     "angular-filter": "~0.5.4",
     "angular-loading": "~0.1.4",
@@ -26,7 +26,9 @@
     "checklist-model": "~0.2.4",
     "tabletop": "~1.4.2",
     "ui-select": "https://github.com/tomersimis/ui-select.git#7ee006d41445e2ceaf2cbe43cd551f37eb1b1b6f",
-    "angular-chart.js": "~0.8.5"
+    "angular-chart.js": "~0.8.5",
+    "highcharts-ng": "~0.0.11",
+    "highcharts": "highcharts-release#~4.1.9"
   },
   "resolutions": {
     "angular": ">= 1.0.8"

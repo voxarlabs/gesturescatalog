@@ -1,5 +1,5 @@
-gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$state', '$filter', '$modal', 'dwLoading',
-	function(gestures, $scope, $state, $filter, $modal, $loading){
+gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$state', '$filter', 'dwLoading',
+	function(gestures, $scope, $state, $filter, $loading){
 
 		$scope.$state = $state;
 
@@ -36,8 +36,13 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$state', '$fi
 		$scope.chartBuilder = {
 			'x' : 'production',
 			'y' : 'input',
-			'type' : 'bar',
-			'qty' : false
+			'type' : 'column',
+			'qty' : false,
+			'chart' : {},
+			'useThreshold': true,
+			'threshold': 10,
+			'useMerge': true,
+			'merge': 4
 		};
 
 		gestures.all(function(data, tabletop){
@@ -66,49 +71,180 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$state', '$fi
 
 				$scope.updateColumns();
 
-				$scope.charts[0] = generateChart('production', 'input', 'bar', false);
-
 				$scope.updateChart();
+
+				$scope.addChart();
 
 				$loading.finish('data');
 
 			});
-		})
+		});
 
-		function generateChart(x, y, type, qty){
-			var chart = {
-				type: type,
-				data: [],
-				labels: $scope.schema[x]['filter']['options'].sort(),
-				series: $scope.schema[y]['filter']['options']
+		function generateChart(x, y, type, qty, useThreshold, threshold, useMerge, merge){
+			var config = {
+				options: {
+					chart: {
+						'type': type
+					},
+				},
+				title: {
+				 	text: 'Sci-Fi Gestures - ' + x + " vs. " + y
+				},
+				subtitle: {
+		            text: ''
+		        },
+				xAxis: {
+					title: {text: x},
+					categories: $scope.schema[x]['filter']['options'].sort()
+				},
+				yAxis: {
+					title: {text: y}
+				},
+				tooltip: {
+		            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+		            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+		                '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+		            footerFormat: '</table>',
+		            shared: true,
+		            useHTML: true
+		        },
+				series: [],
 			};
 
 			if(qty){
-				chart.series = ['Total']
-			}
-
-			for(var i in chart.series){
-				chart.data.push([]);
-				for(var j in chart.labels){
-					chart.data[i].push(0);
+				config.yAxis.title.text = 'Number of items';
+				config.series.push({
+					name: 'Total',
+					data: []
+				});
+				for(var i in config.xAxis.categories){
 					var pattern = {};
-					pattern[x] = chart.labels[j];
-					if(!qty)
-						pattern[y] = chart.series[i];
-					chart.data[i][j] = $filter('filter')($scope.filteredGestures, pattern).length
+					pattern[x] = config.xAxis.categories[i];
+					config.series[0].data.push($filter('filter')($scope.filteredGestures, pattern).length)
 				}
+			}else{
+
+				var series = $scope.schema[y]['filter']['options'];
+				var labels = config.xAxis.categories;
+
+				var offset = 0;
+
+				if(useThreshold && threshold){
+					config.subtitle.text = "Categories with less than " + threshold + " items are included in 'Other'";
+					config.series.push({
+						name: 'Other',
+						data: []
+					});
+					offset = 1;
+					for(var i=0; i < labels.length; i++) config.series[0].data.push(0);
+				}
+
+				var seriesToKeep = {
+					'Other': true
+				};
+				
+
+				for(var i=0; i < series.length;i++){
+					
+					seriesToKeep[series[i]] = false;
+
+					config.series.push({
+						name: series[i],
+						data: []
+					});
+
+					for(var j=0; j < labels.length; j++){
+						var pattern = {};
+						pattern[x] = labels[j];
+						pattern[y] = series[i];
+						var count = $filter('filter')($scope.filteredGestures, pattern).length;
+						config.series[i+offset].data.push(null);
+						if(useThreshold && count < threshold){
+							config.series[0].data[j] += count;
+						}else{
+							config.series[i+offset].data[j] = count;
+							if(count > 0) seriesToKeep[series[i]] = true;
+						}
+					}
+				}
+
+				for(var i=0; i < config.series.length; i++){
+					if(!seriesToKeep[config.series[i].name]){
+						config.series.splice(i, 1);
+						i--;
+					}
+				}
+
 			}
 
-			return chart;
+			if(useMerge && merge && $scope.schema[$scope.chartBuilder.x].type == 'numeric'){
+
+				var mg = mergeData(config, merge);
+
+				config.xAxis.categories = mg[0];
+				for(var i in config.series){
+					config.series[i].data = mg[1][i];
+				}
+
+			}
+
+			return config;
+		}
+
+		function mergeData(config, merge){
+			var categories = config.xAxis.categories;
+
+			var newCategories = [];
+			var init = parseInt(categories[0]);
+
+			var newSeries = [];
+			for(var i=0; i < config.series.length; i++) newSeries.push([0]);
+
+			var i=0;
+			var j=0;
+			while(i < categories.length){
+			    
+			    var end = parseInt(categories[i]);
+			    
+			    if(end <= init + merge - 1){
+			        for(var k=0; k < newSeries.length; k++){
+			        	newSeries[k][j] += config.series[k].data[i]; 
+			        }
+			        i++;
+			    }else{
+			        newCategories.push(init + " - " + (init+merge-1));
+			        init = init+merge;
+			        j++;
+			        for(var l=0; l < config.series.length; l++) newSeries[l].push(0);
+			    }
+			 
+			}
+
+			newCategories.push(init + " - " + categories[categories.length-1]);
+
+			return [newCategories, newSeries];
 		}
 
 		$scope.updateChart = function updateChart(){
-			$scope.chartBuilder.chart = generateChart($scope.chartBuilder.x, $scope.chartBuilder.y, $scope.chartBuilder.type, $scope.chartBuilder.qty);
+			$scope.chartBuilder.chart = generateChart($scope.chartBuilder.x, 
+				$scope.chartBuilder.y, $scope.chartBuilder.type, 
+				$scope.chartBuilder.qty, $scope.chartBuilder.useThreshold, 
+				$scope.chartBuilder.threshold, $scope.chartBuilder.useMerge,
+				$scope.chartBuilder.merge);
 			console.log($scope.chartBuilder);
 		}
 
+		$scope.updateAllCharts = function updateAllCharts(){
+			for(var i in $scope.charts){
+				var c = $scope.charts[i];
+				$scope.charts[i].chart = generateChart( c.x, c.y, c.type, c.qty, 
+					c.useThreshold, c.threshold, c.useMerge, c.merge);
+			}
+			$scope.updateChart();
+		}
+
 		$scope.addChart = function addChart(){
-			$scope.charts.push($.extend({}, $scope.chartBuilder.chart));
+			$scope.charts.push($.extend({}, $scope.chartBuilder));
 		}
 
 		$scope.removeChart = function removeChart(i){
@@ -135,6 +271,7 @@ gesturesApp.controller('GesturesListCtrl', ['Gestures', '$scope', '$state', '$fi
 			}
 
 			$scope.currentPage = 1;
+			$scope.updateAllCharts();
 
 		}
 

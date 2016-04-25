@@ -16,7 +16,7 @@ var gesturesApp = angular.module('gesturesApp', [
 	'ngAnimate',
 	'wu.masonry',
 	'gesturesApp.templates',
-	'chart.js'
+	'highcharts-ng'
 ]);
 
 gesturesApp.config(function($stateProvider, $urlRouterProvider) {
